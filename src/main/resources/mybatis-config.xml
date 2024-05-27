@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<configuration>
+	<settings>
+		<!-- 언더스코어를 카멜표기법으로 변환 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/> 
+		<!-- null 값이 발생하면 빈 문자열("")이 아닌 null로 처리 -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.wtoon.webtoon.member.model.dto.Member" alias="member"/>
+	</typeAliases>
+</configuration>
