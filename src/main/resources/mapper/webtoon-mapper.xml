@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="webtoon">
+	<select id="selectGenreList" resultType="genre">
+		select * from genres_tbl
+	</select>
+	<select id="selectTagList" resultType="String">
+		SELECT DISTINCT HASHTAG FROM HASHTAGS_TBL where hashtag like #{hashtag}||'%'
+	</select>
+	<select id="selectWriterList" resultType="member">
+		SELECT * FROM member_tbl where member_id like #{memberId}||'%'
+	</select>
+</mapper>
