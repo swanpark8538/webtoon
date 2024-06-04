@@ -1,16 +1,7 @@
 @charset "UTF-8";
-*{
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
-}
-.sub-title{
-	margin-bottom: 48px;
-	text-align: center;
-}
 .webtoon-content{
 	margin: 0 auto;
-	width: 1000px;
+	padding: 30px 60px 0px 0px;
 }
 .reg-input-box{
 	display: flex;
@@ -20,8 +11,8 @@
 	flex: 1;
 }
 .webtoon-thumbnail-box{
-	padding: 0px 40px;
-	width: 250px;
+	padding-right: 40px;
+    width: 220px;
 }
 .webtoon-thumbnail-box>img{
 	width: 100%;
@@ -62,14 +53,15 @@
 	vertical-align: top;
 	text-align: center;
 }
-.webtoon-input-table input,
-.webtoon-input-table textarea{
+#webtoon-input-table input[type='text'],
+#webtoon-input-table textarea{
 	outline: none;
 	background: #F9F9F9;
 	border: none;
 	width: 100%;
 	padding: 8px;
 	border-radius: 5px;
+	font-size: 14px;
 }
 .webtoon-input-table textarea{
 	resize:none;
@@ -96,6 +88,7 @@
 .radio-box{
 	align-items: center;
 	display: flex;
+	padding-top: 5px;
 }
 .radio-box>label{
 	padding: 0px 20px 0px 5px;
@@ -121,7 +114,7 @@
 }
 /* 기본 체크박스 숨기기 */
 .reg-webtoon-form .chk_box input[type="checkbox"] { 
-	display: none; 
+	display: none;
 }
 
 /* 선택되지 않은 체크박스 스타일 꾸미기 */
@@ -161,22 +154,21 @@
 	top: 2px; 
 }
 .reg-btn-wrap{
-	text-align: center;
 	padding: 30px;
+	text-align: center;
 }
-.reg-btn-wrap>button{
+.reg-btn-wrap>button,.sr-btn{
 	background: #00B7F1;
 	border: none;
 	color: white;
-	border-radius: 15px;
+	border-radius: 5px;
 	width: 180px;
 	padding: 10px;
 	cursor: pointer;
 	font-weight: 700;
 }
-
 /*해시태그,자동검색*/
-.tag-sub-message-box>div{
+.tag-sub-message-box>div,.writer-sub-message{
 	font-size: 10px;
 	color: #999999;
 	padding: 2px;
@@ -230,7 +222,20 @@
 .webtoon-input-table input::placeholder
 ,.webtoon-input-table textarea::placeholder {
   color: #999999;
+  font-size:14px;
 }
 .search-item:hover {
 	background: #00b7f140;
+}
+.center{
+	text-align: center;
+}
+.webtoon-content .modal .modal_title{
+	font-size:18px;
+}
+.webtoon-content .modal button {
+	width: 100px;
+}
+.webtoon-content .modal{
+	display: none;
 }
