@@ -7,6 +7,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.wtoon.webtoon.model.dto.Creator;
+import com.wtoon.webtoon.model.dto.HashTag;
+import com.wtoon.webtoon.model.dto.SerialDay;
+import com.wtoon.webtoon.model.dto.Webtoon;
+import com.wtoon.webtoon.model.dto.WebtoonGenre;
+
 @Repository
 public class WebtoonDao {
 	@Autowired
@@ -23,6 +29,29 @@ public class WebtoonDao {
 	public List selectWriterList(String memberId) {
 		return session.selectList("webtoon.selectWriterList",memberId);
 	}
+
+	public int insertWebtoon(Webtoon webtoon) {
+		return session.insert("webtoon.insertWebtoon", webtoon);
+	}
+
+	public int insertCreator(HashMap<String, Object> map) {
+		return session.insert("webtoon.insertCreator", map);
+	}
+
+	public int insertDay(HashMap<String, Object> map) {
+		return session.insert("webtoon.insertDay", map);
+	}
+
+	public int insertGenre(HashMap<String, Object> map) {
+		return session.insert("webtoon.insertGenre", map);
+	}
+
+	public int insertTag(HashMap<String, Object> map) {
+		return session.insert("webtoon.insertTag", map);
+	}
+
+
+
 	
 	
 }

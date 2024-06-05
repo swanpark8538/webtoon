@@ -29,7 +29,7 @@ public class WebtoonController {
 	
 	@GetMapping(value = "/myWorks")
 	public String myWorks(int reqPage, Model model) {
-		//내 작품 리스트 불러오기
+		//내 작품 리스트 불러오기,페이지
 		
 		return "webtoon/myWorksList";
 	}
@@ -55,27 +55,35 @@ public class WebtoonController {
 	}
 	
 	@PostMapping(value = "/register")
-	public String register(Webtoon webtoon, MultipartFile imgFile, 
-			int writer, int painter, String[] days, String[] genres, String[] tags) {
-		
-		
-		
-		/*
-		System.out.println(webtoon);
-		System.out.println(imgFile);
-		System.out.println(writer);
-		System.out.println(painter);
-		for (String a : days) {
-			System.out.println(a);
+	public String register(Model model, Webtoon webtoon, MultipartFile imgFile, 
+		int writer, int painter, String[] days, int[] genres, String[] tags) {
+		//웹툰 썸네일 등록
+		String savepath = root+"/webtoon/";
+		String filepath = fileUtils.upload(savepath, imgFile);
+		webtoon.setWebtoonThumbnail(filepath);
+
+		int result = webtoonService.insertWebtoon(webtoon,writer,painter,days,genres,tags);
+		int tagCount = 0;
+		if(tags!=null) {
+			tagCount = tags.length;
 		}
-		for (String a : genres) {
-			System.out.println(a);
+		int totalCount = 1+1+1+days.length+genres.length+tagCount;
+		
+		System.out.println(result);
+		System.out.println(totalCount);
+		
+		if(result==totalCount) {
+			model.addAttribute("title", "작품 등록 완료");
+			model.addAttribute("msg", "작품이 등록되었습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "/webtoon/myWorks?reqPage=1");
+		}else {
+			model.addAttribute("title", "작품 등록 실패");
+			model.addAttribute("msg", "다시 등록해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/webtoon/myWorks?reqPage=1");
 		}
-		for (String a : tags) {
-			System.out.println(a);
-		}
-		*/
-		return "webtoon/myWorksList";
+		return "common/msg";
 	}
 	
 }

@@ -1,74 +1,72 @@
 @charset "UTF-8";
-.webtoon-content{
-	margin: 0 auto;
-	padding: 30px 60px 0px 0px;
+.webtoon-content {
+  margin: 0 auto;
+  padding: 30px 60px 30px 0px;
+  max-width: 1360px;
 }
-.reg-input-box{
-	display: flex;
-	justify-content: center;
+.reg-input-box {
+  display: flex;
+  justify-content: center;
 }
-.reg-input-box>div:nth-child(2){
-	flex: 1;
+.webtoon-thumbnail-box {
+  padding-right: 40px;
+  width: 220px;
 }
-.webtoon-thumbnail-box{
-	padding-right: 40px;
-    width: 220px;
+.webtoon-thumbnail-box > img {
+  width: 100%;
+  height: 250px;
 }
-.webtoon-thumbnail-box>img{
-	width: 100%;
-	height: 250px;
+.webtoon-thumbnail-box > label {
+  width: 100%;
+  display: block;
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #00b7f1;
+  border-radius: 5px;
+  color: #00b7f1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
 }
-.webtoon-thumbnail-box>label{
-	width: 100%;
-	display: block;
-	margin-top: 15px;
-	padding : 10px;
-	border: 1px solid #00B7F1;
-	border-radius: 5px;
-	color: #00B7F1;
-	text-align: center;
-	font-weight: 700;
-	font-size: 14px;
-	cursor: pointer;
-}
-.webtoon-thumbnail-box>label:hover{
-	color: white;
-	background: #00B7F1;
+.webtoon-thumbnail-box > label:hover {
+  color: white;
+  background: #00b7f1;
 }
 
-.webtoon-input-table table, 
+.webtoon-input-table table,
 .webtoon-input-table th,
 .webtoon-input-table td {
-  border: 1px solid #D6D6D6;
+  border: 1px solid #d6d6d6;
   border-collapse: collapse;
   font-size: 14px;
   padding: 10px;
 }
-.webtoon-input-table table>tbody>tr>td:nth-child(1)
-,.webtoon-input-table table>tbody>tr>td:nth-child(3){
-	background: #EEEEEE;
-	width: 15%;
-	height: 30px;
-	line-height: 30px;
-	vertical-align: top;
-	text-align: center;
+.webtoon-input-table table > tbody > tr > td:nth-child(1),
+.webtoon-input-table table > tbody > tr > td:nth-child(3) {
+  background: #eeeeee;
+  width: 15%;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  text-align: center;
 }
-#webtoon-input-table input[type='text'],
-#webtoon-input-table textarea{
-	outline: none;
-	background: #F9F9F9;
-	border: none;
-	width: 100%;
-	padding: 8px;
-	border-radius: 5px;
-	font-size: 14px;
+#webtoon-input-table input[type="text"],
+#webtoon-input-table textarea {
+  outline: none;
+  background: #f9f9f9;
+  border: none;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
 }
-.webtoon-input-table textarea{
-	resize:none;
-	height: 150px;
+.webtoon-input-table textarea {
+  resize: none;
+  height: 150px;
 }
 /*라디오 박스 디자인 */
-.reg-webtoon-form input[type='radio'] {
+.reg-webtoon-form input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -80,162 +78,177 @@
   cursor: pointer;
   background: white;
 }
-.reg-webtoon-form input[type='radio']:checked {
-  background-color: #00B7F1; 
+.reg-webtoon-form input[type="radio"]:checked {
+  background-color: #00b7f1;
   border: 3.2px solid white;
-  box-shadow: 0 0 0 1.2px #00B7F1;
+  box-shadow: 0 0 0 1.2px #00b7f1;
 }
-.radio-box{
-	align-items: center;
-	display: flex;
-	padding-top: 5px;
+.radio-box {
+  align-items: center;
+  display: flex;
+  padding-top: 5px;
 }
-.radio-box>label{
-	padding: 0px 20px 0px 5px;
-	font-size: 14px;
+.radio-box > label {
+  padding: 0px 20px 0px 5px;
+  font-size: 14px;
 }
 
 /*체크박스 디자인*/
 .reg-webtoon-form .chk_box {
-	position: relative; 
-	padding-left: 25px; 
-	padding-top: 5px; 
-	padding-bottom:5px;
-	cursor: pointer; 
-	font-size: 14px; 
-	-webkit-user-select: none; 
-	-moz-user-select: none; 
-	-ms-user-select: none; 
-	user-select: none; 
-	display: inline-block;
+  position: relative;
+  padding-left: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
 }
 .reg-webtoon-form .chk-text {
-	padding: 0px 10px 0px 2px;
+  padding: 0px 10px 0px 2px;
 }
 /* 기본 체크박스 숨기기 */
-.reg-webtoon-form .chk_box input[type="checkbox"] { 
-	display: none;
+.reg-webtoon-form .chk_box input[type="checkbox"] {
+  display: none;
 }
 
 /* 선택되지 않은 체크박스 스타일 꾸미기 */
-.reg-webtoon-form .on { 
-	width: 20px; 
-	height: 20px; 
-	background: white; 
-	position: absolute; 
-	top: 5px; 
-	left: 0; 
-	border: 1px solid #ccc;
+.reg-webtoon-form .on {
+  width: 20px;
+  height: 20px;
+  background: white;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  border: 1px solid #ccc;
 }
 
 /* 선택된 체크박스 스타일 꾸미기 */
-.reg-webtoon-form .chk_box input[type="checkbox"]:checked + .on { 
-	background: white; 
-	border: 1px solid #00B7F1;
+.reg-webtoon-form .chk_box input[type="checkbox"]:checked + .on {
+  background: white;
+  border: 1px solid #00b7f1;
 }
-.reg-webtoon-form .on:after { 
-	content: ""; 
-	position: absolute; 
-	display: none; 
+.reg-webtoon-form .on:after {
+  content: "";
+  position: absolute;
+  display: none;
 }
-.reg-webtoon-form .chk_box input[type="checkbox"]:checked + .on:after { 
-	display: block;
+.reg-webtoon-form .chk_box input[type="checkbox"]:checked + .on:after {
+  display: block;
 }
-.reg-webtoon-form .on:after { 
-	width: 6px; 
-	height: 10px; 
-	border: solid #00B7F1; 
-	border-width: 0 2px 2px 0; 
-	-webkit-transform: rotate(45deg); 
-	-ms-transform: rotate(45deg); 
-	transform: rotate(45deg); 
-	position: absolute; 
-	left: 6px; 
-	top: 2px; 
+.reg-webtoon-form .on:after {
+  width: 6px;
+  height: 10px;
+  border: solid #00b7f1;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  left: 6px;
+  top: 2px;
 }
-.reg-btn-wrap{
-	padding: 30px;
-	text-align: center;
+.reg-btn-wrap {
+  padding: 30px;
+  text-align: center;
 }
-.reg-btn-wrap>button,.sr-btn{
-	background: #00B7F1;
-	border: none;
-	color: white;
-	border-radius: 5px;
-	width: 180px;
-	padding: 10px;
-	cursor: pointer;
-	font-weight: 700;
+.reg-btn-wrap > button,
+.sr-btn {
+  background: #00b7f1;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  width: 180px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: ns-b;
+  font-size: 15px;
 }
 /*해시태그,자동검색*/
-.tag-sub-message-box>div,.writer-sub-message{
-	font-size: 10px;
-	color: #999999;
-	padding: 2px;
+.tag-sub-message-box > div,
+.writer-sub-message {
+  font-size: 10px;
+  color: #999999;
+  padding: 2px;
 }
-.tag-sub-message-box>div:nth-child(1){
-	padding-top: 7px;
+.tag-sub-message-box > div:nth-child(1) {
+  padding-top: 7px;
 }
 .tag-list {
-	padding: 0px 0px 0px 5px;
-	display: flex;
-	flex-wrap: wrap;
+  padding: 0px 0px 0px 5px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .add-tag-box {
-	display: flex;
-	background-color: white;
-	border: 1px solid #00B7F1;
-	border-radius: 5px;
-	padding: 5px;
-	margin-right: 7px;
-	margin-bottom: 7px;
-	font-size: 13px;
+  display: flex;
+  background-color: white;
+  border: 1px solid #00b7f1;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 7px;
+  margin-bottom: 7px;
+  font-size: 13px;
 }
 .add-tag-box .tag-close {
-	font-size: 18px;
-	margin-left: 8px;
-	cursor: pointer;
-	color: #00B7F1;
+  font-size: 18px;
+  margin-left: 8px;
+  cursor: pointer;
+  color: #00b7f1;
 }
-.search-wrap{
-	position: relative;
+.search-wrap {
+  position: relative;
 }
-.search-list{
-	display: none;
-	border: 1px solid #00B7F1;
-	background-color: white;
-	max-height: 150px;
-	overflow-y: auto;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	padding: 5px 0px;
-	z-index: 1010;
+.search-list {
+  border: 1px solid #00b7f1;
+  background-color: white;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px 0px;
+  z-index: 1010;
 }
-.search-item,.search-none-item{
-    line-height: 25px;
-    font-size: 13px;
-    padding: 5px;
-    cursor: pointer;
+.search-item,
+.search-none-item {
+  line-height: 25px;
+  font-size: 13px;
+  padding: 5px;
+  cursor: pointer;
 }
-.webtoon-input-table input::placeholder
-,.webtoon-input-table textarea::placeholder {
+.webtoon-input-table input::placeholder,
+.webtoon-input-table textarea::placeholder {
   color: #999999;
-  font-size:14px;
+  font-size: 14px;
 }
 .search-item:hover {
-	background: #00b7f140;
+  background: #00b7f140;
 }
-.center{
-	text-align: center;
+.center {
+  text-align: center;
 }
-.webtoon-content .modal .modal_title{
-	font-size:18px;
+.webtoon-content .modal .modal_title {
+  font-size: 18px;
 }
 .webtoon-content .modal button {
-	width: 100px;
+  width: 100px;
 }
-.webtoon-content .modal{
-	display: none;
+.webtoon-content .modal {
+  display: none;
+}
+
+/*내 작품 목록*/
+.new_webtoon_register{
+	
+}
+.a_tag_btn{
+	background: black;
+	color:white;
+	padding:10px 20px;
+	border-radius: 20px;
+	font-size: 13px;
 }

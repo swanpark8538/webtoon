@@ -10,4 +10,22 @@
 	<select id="selectWriterList" resultType="member">
 		SELECT * FROM member_tbl where member_id like #{memberId}||'%'
 	</select>
+	<insert id="insertWebtoon">
+		insert into webtoon_tbl values(WEBTOON_SEQ.nextval,#{webtoonTitle},#{webtoonThumbnail},#{webtoonIntro},#{webtoonRating},'1','0')
+		<selectKey resultType="int" order="AFTER" keyProperty="webtoonNo">
+			select max(webtoon_no) from webtoon_tbl
+		</selectKey>
+	</insert>
+	<insert id="insertCreator">
+		insert into creator_tbl values(#{memberNo},#{webtoonNo},#{creatorType})
+	</insert>
+	<insert id="insertDay">
+		insert into serial_days_tbl values(#{webtoonNo},#{serialDay})
+	</insert>
+	<insert id="insertGenre">
+		insert into webtoon_genres_tbl values(#{webtoonNo},#{genreNo})
+	</insert>
+	<insert id="insertTag">
+		insert into hashtags_tbl values(#{webtoonNo},#{hashTag})
+	</insert>
 </mapper>
