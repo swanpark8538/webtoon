@@ -7,11 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.wtoon.webtoon.model.dto.Creator;
-import com.wtoon.webtoon.model.dto.HashTag;
-import com.wtoon.webtoon.model.dto.SerialDay;
 import com.wtoon.webtoon.model.dto.Webtoon;
-import com.wtoon.webtoon.model.dto.WebtoonGenre;
 
 @Repository
 public class WebtoonDao {

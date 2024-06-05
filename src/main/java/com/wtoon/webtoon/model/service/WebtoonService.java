@@ -8,11 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wtoon.webtoon.model.dao.WebtoonDao;
-import com.wtoon.webtoon.model.dto.Creator;
-import com.wtoon.webtoon.model.dto.HashTag;
-import com.wtoon.webtoon.model.dto.SerialDay;
 import com.wtoon.webtoon.model.dto.Webtoon;
-import com.wtoon.webtoon.model.dto.WebtoonGenre;
 
 @Service
 public class WebtoonService {
