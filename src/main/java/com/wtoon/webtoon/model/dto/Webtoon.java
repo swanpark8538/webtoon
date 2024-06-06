@@ -15,6 +15,7 @@ public class Webtoon {
 	private String webtoonRating;
 	private String webtoonIsinseries;
 	private String webtoonIsdeleted;
+	private int webtoonWeeklyviews;
 	
 	public String getBr() {
 		return webtoonIntro.replaceAll("\r\n", "<br>");
