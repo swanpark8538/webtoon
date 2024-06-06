@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="resourcesPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,18 +12,23 @@ prefix="c" %>
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
     <!-- jquery -->
-    <script src="/resources/js/jquery-3.6.0.js"></script>
+    <!-- resources 경로 찾기 1. <c:url value=""/> 태그를 활용하는 방법 -->
+    <script src="<c:url value="/resources/js/jquery-3.6.0.js"/>"></script>
     <!-- 페이지 js -->
-    <script src="/resources/js/member/signUpFrm.js"></script>
+    <!-- resources 경로 찾기 2. ${pageContext.request.contextPath}를 직접 입력하는 방법 -->
+    <script src="${pageContext.request.contextPath}/resources/js/member/signUpFrm.js"></script>
     <!-- 기본 CSS -->
-    <link rel="stylesheet" href="/resources/css/default-psw.css" />
+    <!-- resources 경로 찾기 3. 위에 설정해놓은 resourcesPath를 활용하는 방법 -->
+    <link href="${resourcesPath}/resources/css/default-psw.css" rel="stylesheet">
     <!-- 페이지 CSS -->
-    <link rel="stylesheet" href="/resources/css/member/signUpFrm.css" />
+    <link href="${resourcesPath}/resources/css/member/signUpFrm.css" rel="stylesheet">
   </head>
   <body>
     <!-- 헤더 -->
+    <!-- 
     <jsp:include page="../common/header.jsp"></jsp:include>
-
+	 -->
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
     <!-- main -->
     <main class="main">
       <!-- join-main -->
