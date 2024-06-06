@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="webtoon">
 	<select id="getWebtoonList" resultType="webtoon">
-		select webtoon_no, webtoon_title, webtoon_thumbnail, webtoon_intro, webtoon_rating, webtoon_isinseries, webtoon_isdeleted
+		select w.webtoon_no, w.webtoon_title, w.webtoon_thumbnail, w.webtoon_intro, w.webtoon_rating, w.webtoon_isinseries, w.webtoon_isdeleted
 		<if test="tab.equals('all')">
-			, serial_day
+			, s.serial_day
 		</if>
 		from webtoon_tbl w
 		<choose>
 			<!-- 전체 요일 -->
 			<when test="tab.equals('all')">
-				join serial_days_tbl using(webtoon_no)
-				where webtoon_isinseries='1' order by serial_day
+				join serial_days_tbl s on w.webtoon_no=s.webtoon_no
+				where webtoon_isinseries='1'
 			</when>
 			<!-- 장르 -->
 			<when test="tab.equals('genre')">
@@ -19,7 +19,7 @@
 			</when>
 			<!-- 신작 -->
 			<when test="tab.equals('new')">
-				where webtoon_isinseries='1' and webtoon_no in (select webtoon_no from episode_tbl where to_char(epi_open_date, 'yyyy-mm-dd') >= to_char(sysdate-7, 'yyyy-mm-dd'))
+				where webtoon_isinseries='1' and webtoon_no in (select distinct(webtoon_no) from episode_tbl e where (select min(epi_open_date) from episode_tbl where webtoon_no=e.webtoon_no) >= to_char(sysdate-30, 'yyyy-mm-dd'))
 			</when>
 			<!-- 완결 -->
 			<when test="tab.equals('finish')">
@@ -30,6 +30,28 @@
 				where webtoon_isinseries='1' and webtoon_no in (select webtoon_no from serial_days_tbl where serial_day=#{tab})
 			</otherwise>
 		</choose>
+		order by
+		<if test="tab.equals('all')">
+			serial_day,
+		</if>
+		<!-- 인기순 -->
+		<if test="sort.equals('popularity')">
+			((select webtoon_weeklyviews from webtoon_tbl where webtoon_no=w.webtoon_no)*0.5
+			+(select avg(read_count) from episode_tbl where webtoon_no=w.webtoon_no)*0.3
+			+(select nvl(avg(rating),0) from rating_tbl where webtoon_no=w.webtoon_no)*0.2) desc
+		</if>
+		<!-- 업데이트순 -->
+		<if test="sort.equals('update')">
+			(select max(epi_open_date) from episode_tbl where webtoon_no=w.webtoon_no) desc
+		</if>
+		<!-- 조회순 -->
+		<if test="sort.equals('view')">
+			(select avg(read_count) from episode_tbl where webtoon_no=w.webtoon_no) desc
+		</if>
+		<!-- 별점순 -->
+		<if test="sort.equals('rating')">
+			(select nvl(avg(rating),0) from rating_tbl where webtoon_no=w.webtoon_no) desc, webtoon_title
+		</if>
 	</select>
 	
 	<select id="selectGenreList" resultType="genre">
