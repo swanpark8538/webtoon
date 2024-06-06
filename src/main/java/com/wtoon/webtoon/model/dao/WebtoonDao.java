@@ -13,6 +13,11 @@ import com.wtoon.webtoon.model.dto.Webtoon;
 public class WebtoonDao {
 	@Autowired
 	private SqlSessionTemplate session;
+
+	public List getWebtoonList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectList("webtoon.getWebtoonList", map);
+	}
 	
 	public List selectGenreList() {
 		return session.selectList("webtoon.selectGenreList");

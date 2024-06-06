@@ -6,6 +6,17 @@
 .main_tab>.tab_btns::after{content: ""; display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; border-bottom: 1px solid var(--line_03);}
 .main_tab>.tab_btns>.tab_btn{padding: 0 12px; border-bottom: 2px solid transparent; font-size: 15px; line-height: 58px; z-index: 10;}
 .main_tab>.tab_btns>.tab_btn.active{border-bottom: 2px solid var(--main_01); color: var(--main_01); font-family: ns-b;}
-.main_tab>.tab_contents{width: 100%; max-width: 1360px; margin: 0 auto; padding-top: 24px;}
-.main_tab>.tab_contents>.tab_content{display: none; padding: 0 40px;}
-.main_tab>.tab_contents>.tab_content.active{display: block;}
+.main_tab>.tab_contents{width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 40px;}
+.main_tab>.tab_contents>.tab_content{padding: 24px 0;}
+
+.main_tab .sort_btns>.sort_btn.active{color: var(--main_01); font-family: ns-b;}
+
+.main_tab .genre_btns>.genre_btn.active{color: var(--main_01); font-family: ns-b;}
+
+.recommend_area{padding: 24px 0;}
+.recommend_list{display: flex; gap: 20px;}
+.recommend_list .list_item>.comics_thumb{height: 190px; background-color: #eee;}
+.recommend_list .list_item>.comics_info{margin-top: 12px;}
+.recommend_list .list_item .comics_title{font-size: 15px; line-height: 21px;}
+.recommend_list .list_item .comics_creators{margin-top: 4px; font-size: 14px; line-height: 21px;}
+.recommend_list .list_item .comics_intro{display: -webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; color: var(--gray_03); font-size: 14px; line-height: 21px;}
