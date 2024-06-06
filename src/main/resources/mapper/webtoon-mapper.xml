@@ -28,4 +28,42 @@
 	<insert id="insertTag">
 		insert into hashtags_tbl values(#{webtoonNo},#{hashTag})
 	</insert>
+	<update id="deleteWebtoon">
+		update webtoon_tbl set WEBTOON_ISDELETED = '1' where webtoonNo=#{webtoonNo}
+	</update>
+	<select id="selectMyWorksCount" resultType="int">
+		select count(*) from (select distinct webtoon_no from creator_tbl where member_no=#{memberNo})
+	</select>
+	
+	
+	<select id="selectSerialDay" resultType="String">
+		SELECT SERIAL_DAY FROM SERIAL_DAYS_TBL WHERE WEBTOON_NO = #{webtoonNo};
+	</select>
+
+	<resultMap type="webtoon" id="getMyWork">
+	    <result column="webtoon_no" property="webtoonNo" />
+	    <result column="webtoon_title" property="webtoonTitle" />
+	    <result column="webtoon_thumbnail" property="webtoonThumbnail" />
+	    <result column="webtoon_rating" property="webtoonRating" />
+	    <result column="webtoon_isinseries" property="webtoonIsinseries" />
+	    <result column="avg_rating" property="avgRating" />
+	    <collection property="day" ofType="String" select="selectSerialDay" javaType="java.util.List" column="webtoon_no"/>
+	</resultMap>
+	
+	<select id="selectMyWorksList" resultMap="getMyWork">
+	    SELECT 
+	        w.webtoon_no, w.webtoon_title, w.webtoon_thumbnail, w.webtoon_rating, w.webtoon_isinseries,
+	        COALESCE((
+	            SELECT AVG(r.rating)
+	            FROM RATING_TBL r
+	            WHERE r.webtoon_no = w.webtoon_no
+        	), -1) AS avg_rating
+	    FROM WEBTOON_TBL w
+	    WHERE w.webtoon_no IN (
+	        SELECT DISTINCT webtoon_no
+	        FROM creator_tbl
+	        WHERE member_no = #{memberNo}
+	    )
+	</select>
+	
 </mapper>

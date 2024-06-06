@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wtoon.webtoon.util.FileUtils;
+import com.wtoon.webtoon.model.dto.PageData;
 import com.wtoon.webtoon.model.dto.Webtoon;
 import com.wtoon.webtoon.model.service.WebtoonService;
 
@@ -30,7 +31,14 @@ public class WebtoonController {
 	@GetMapping(value = "/myWorks")
 	public String myWorks(int reqPage, Model model) {
 		//내 작품 리스트 불러오기,페이지
-		
+		//로그인 구현시 세션에서 멤버번호가져와서 변경 예정
+		int memberNo = -1;
+		System.out.println(memberNo);
+		//PageData pd = webtoonService.getMyWorksList(reqPage,memberNo);
+		//System.out.println(pd.getList());
+		//System.out.println(pd);
+		//model.addAttribute("list", pd.getList());
+		//model.addAttribute("pageNavi", pd.getPageNavi());
 		return "webtoon/myWorksList";
 	}
 	
@@ -86,4 +94,30 @@ public class WebtoonController {
 		return "common/msg";
 	}
 	
+	@GetMapping(value = "/delete")
+	public String deleteWebtoon(int webtoonNo, Model model) {
+		int result = webtoonService.deleteWebtoon(webtoonNo);
+		if(result>0) {
+			model.addAttribute("title", "작품 삭제 완료");
+			model.addAttribute("msg", "작품이 삭제되었습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "/webtoon/myWorks?reqPage=1");
+		}else {
+			model.addAttribute("title", "작품 삭제 실패");
+			model.addAttribute("msg", "다시 시도해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/webtoon/myWorks?reqPage=1");
+		}
+		return "common/msg";
+	}
+	
+	@PostMapping(value = "/update")
+	public String updateWebtoon(int webtoonNo, Model model) {
+		//전체 삭제 후 재등록 : 요일, 장르, 태그
+		//사진은 새 파일 있으면 변경 아니면 원래꺼로 설정 해준 뒤 웹툰정보, 작가들은 수정
+		
+		
+		
+		return "common/msg";
+	}
 }

@@ -46,6 +46,18 @@ public class WebtoonDao {
 		return session.insert("webtoon.insertTag", map);
 	}
 
+	public int deleteWebtoon(int webtoonNo) {
+		return session.update("webtoon.deleteWebtoon", webtoonNo);
+	}
+
+	public List getMyWorksList(HashMap<String, Object> map) {
+		return session.selectList("webtoon.selectMyWorksList", map);
+	}
+
+	public int totalMyWorksCount(int memberNo) {
+		return session.selectOne("webtoon.selectMyWorksCount", memberNo);
+	}
+
 
 
 	

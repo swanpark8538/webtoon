@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wtoon.webtoon.model.dao.WebtoonDao;
+import com.wtoon.webtoon.model.dto.PageData;
 import com.wtoon.webtoon.model.dto.Webtoon;
 
 @Service
@@ -67,6 +68,48 @@ public class WebtoonService {
 			}
 		}
 		return result;
+	}
+
+	public int deleteWebtoon(int webtoonNo) {
+		return webtoonDao.deleteWebtoon(webtoonNo);
+	}
+
+	public PageData getMyWorksList(int reqPage, int memberNo) {
+		int numPerPage = 10;
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("memberNo", memberNo);
+		List list = webtoonDao.getMyWorksList(map);
+		System.out.println(numPerPage);
+		System.out.println(list);
+		int totalCount = webtoonDao.totalMyWorksCount(memberNo);
+		int totalPage = totalCount%numPerPage == 0 ? totalCount/numPerPage : totalCount/numPerPage + 1;
+		
+		int pageNaviSize = 10;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
+		String pageNavi = "";
+		if(pageNo != 1) {
+			pageNavi = "<a href='/webtoon/myWorks?reqPage="+(pageNo-1)+"'>[이전]</a>";
+		}
+		for(int i=0; i<pageNaviSize; i++) {
+			if(reqPage == pageNo) {
+				pageNavi += "<span>"+pageNo+"</span>";				
+			}else {
+				pageNavi += "<a href='/webtoon/myWorks?reqPage="+pageNo+"'>"+pageNo+"</a>";				
+			}
+			pageNo++;
+			if(pageNo > totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<a href='/webtoon/myWorks?reqPage="+pageNo+"'>[다음]</a>";
+		}
+		PageData pd = new PageData(list,pageNavi);
+		return pd;
 	}
 	
 	
