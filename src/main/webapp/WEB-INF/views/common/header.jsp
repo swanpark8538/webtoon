@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="resourcesPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +27,7 @@
 	            <div class="user_menu_area">
             		<c:if test="${empty sessionScope.member }">
 		                <ul>
-		                    <li><a href="/webtoon/member/signUpFrm">회원가입</a></li>
+		                    <li><a href="/member/signUpFrm">회원가입</a></li>
 		                    <li><a href="/member/signInFrm">로그인</a></li>
 		                </ul>
             		</c:if>

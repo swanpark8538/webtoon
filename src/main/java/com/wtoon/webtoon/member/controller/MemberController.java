@@ -29,7 +29,7 @@ public class MemberController {
 	@ResponseBody
 	@GetMapping(value="checkIdIsDuplicated")
 	public String idCheck(String memberId){
-		
+		System.out.println(memberId);//확인용 !!!!
 		Member m = new Member();
 		m.setMemberId(memberId);
 		Member member = memberService.selectOneMember_BCrypt(m);
