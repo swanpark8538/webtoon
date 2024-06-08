@@ -8,7 +8,10 @@
 	</insert>
 	
 	<select id="selectOneMember" resultType="member">
-		select * from member_tbl where member_id = #{memberId} and member_pw = #{memberPw}
+		select * from member_tbl where member_id = #{memberId}
+		<if test="memberId != null">
+			and member_pw = #{memberPw}
+		</if>
 	</select>
 
 </mapper>

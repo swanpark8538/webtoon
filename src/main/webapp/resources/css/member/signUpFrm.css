@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.main-join {
+  margin: 0 auto;
+  width: 650px;
+}
+
+.seperate-this{
+  width: 650px;
+}
+
+.join-form{
+  width: 620px;
+  margin: 0 auto;
+}
+
+.btnArea{
+  margin: 0 auto;
+  padding-top: 45px;
+  text-align: center;
+}

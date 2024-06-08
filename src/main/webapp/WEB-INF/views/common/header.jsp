@@ -1,15 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/resources/css/font.css">
-<link rel="stylesheet" href="/resources/css/reset.css">
-<link rel="stylesheet" href="/resources/css/common.css">
-<link rel="stylesheet" href="/resources/css/main.css">
-<script src="/resources/js/jquery-3.6.0.js"></script>
+	<link rel="stylesheet" href="<c:url value="/resources/css/font.css" />" >
+	<link rel="stylesheet" href="<c:url value="/resources/css/reset.css" />" >
+	<link rel="stylesheet" href="<c:url value="/resources/css/common.css" />" >
+	<link rel="stylesheet" href="<c:url value="/resources/css/main.css" />" >
+	<script src="<c:url value="/resources/js/jquery-3.6.0.js" />" ></script>
 </head>
 <body>
 
@@ -25,10 +25,18 @@
 	                </div>
 	            </form>
 	            <div class="user_menu_area">
-	                <ul>
-	                    <li><a href="#">회원가입</a></li>
-	                    <li><a href="#">로그인</a></li>
-	                </ul>
+            		<c:if test="${empty sessionScope.member }">
+		                <ul>
+		                    <li><a href="/member/signUpFrm">회원가입</a></li>
+		                    <li><a href="/member/signInFrm">로그인</a></li>
+		                </ul>
+            		</c:if>
+            		<c:if test="${not empty sessionScope.member }">
+            			<ul>
+		                    <li><a href="#">마이페이지</a></li>
+		                    <li><a href="/member/signOut">로그아웃</a></li>
+		                </ul>
+            		</c:if>
 	            </div>
 	        </div>
 	    </header>

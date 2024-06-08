@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wtoon.webtoon.member.model.dto.Member;
 import com.wtoon.webtoon.member.model.service.MemberService;
@@ -23,6 +24,20 @@ public class MemberController {
 	@GetMapping(value="/signUpFrm")
 	public String signUpFrm() {
 		return "member/signUpFrm";
+	}
+	
+	@ResponseBody
+	@GetMapping(value="checkIdIsDuplicated")
+	public String idCheck(String memberId){
+		System.out.println(memberId);//확인용 !!!!
+		Member m = new Member();
+		m.setMemberId(memberId);
+		Member member = memberService.selectOneMember_BCrypt(m);
+		if(member != null) {
+			return "success";//중복X
+		}else {
+			return "fail";//중복O
+		}
 	}
 	
 	//회원가입
@@ -78,6 +93,8 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+
 		
 	
 	

@@ -16,6 +16,16 @@ public class WebtoonService {
 	@Autowired
 	private WebtoonDao webtoonDao;
 
+	//메인 웹툰 리스트 불러오기
+	public List getWebtoonList(String tab, String sort, String genre) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("tab", tab);
+		map.put("sort", sort);
+		map.put("genre", genre);
+//		System.out.println(map);
+		return webtoonDao.getWebtoonList(map);
+	}
+	
 	public List selectGenreList() {
 		return webtoonDao.selectGenreList();
 	}
@@ -83,7 +93,7 @@ public class WebtoonService {
 		map.put("end", end);
 		map.put("memberNo", memberNo);
 		List list = webtoonDao.getMyWorksList(map);
-		//System.out.println(list);
+		System.out.println(list);
 		int totalCount = webtoonDao.totalMyWorksCount(memberNo);
 		int totalPage = totalCount%numPerPage == 0 ? totalCount/numPerPage : totalCount/numPerPage + 1;		
 		int pageNaviSize = 5;

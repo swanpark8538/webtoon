@@ -71,8 +71,8 @@ select{background: transparent;}
 input:not([type=checkbox],[type=radio]):-internal-autofill-selected {background-color: #fff!important;}
 .input_area .input_wrap+.input_wrap{margin-top: 24px;}
 .input_wrap{display: flex; flex-direction: column;}
-.input_wrap .input_title{margin-bottom: 12px; font-size: 16px; font-weight: bold; line-height: 1.5;}
-.input_wrap .input_title>em{color: var(--gray_04); font-size: 14px; font-weight: normal;}
+.input_wrap .input_title{margin-bottom: 12px; font-family: ns-b; font-size: 16px; line-height: 1.5;}
+.input_wrap .input_title>em{color: var(--gray_04); font-family: ns-r; font-size: 14px;}
 .input_item{display: flex; gap: 8px;}
 .input_item input{flex: 1; font-size: 16px; line-height: 1.5; border-bottom: 1px solid var(--gray_05);}
 .input_item+.msg{position: relative; margin-top: 8px; padding-left: 24px; color: var(--gray_03); font-size: 14px; line-height: 1.5;}
@@ -97,7 +97,7 @@ input:not([type=checkbox],[type=radio]):-internal-autofill-selected {background-
 .boxtype.red{border: 1pxp solid red;}
 .radio_wrap.box_type{display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; grid-template-rows: auto; column-gap: 12px; row-gap: 12px;}
 .radio.boxtype label{display: block; padding: 6.5px 12px; border: 1px solid var(--line_02); border-radius: 4px; font-size: 14px; line-height: 1.5; text-align: center; cursor: pointer;}
-.radio.boxtype input[type=radio]:checked+label{border-color: var(--main_01); color: var(--main_01); font-weight: bold;}
+.radio.boxtype input[type=radio]:checked+label{border-color: var(--main_01); color: var(--main_01); font-family: ns-b;}
 .radio.boxtype input[type=radio][disabled]+label{opacity: 0.4; cursor: default;}
 
 /* modal */

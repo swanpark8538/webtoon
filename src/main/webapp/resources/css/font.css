@@ -2,26 +2,12 @@
 
 /* font */
 @font-face {
-  font-family: ns-bl;
-  src: url(/resources/font/NotoSansKR-Black.otf);
-}
-@font-face {
   font-family: ns-b;
-  src: url(/resources/font/NotoSansKR-Bold.otf);
-}
-@font-face {
-  font-family: ns-l;
-  src: url(/resources/font/NotoSansKR-Light.otf);
-}
-@font-face {
-  font-family: ns-m;
-  src: url(/resources/font/NotoSansKR-Medium.otf);
+  font-weight: normal;
+  src: url(/resources/font/NotoSansKR-Bold.ttf);
 }
 @font-face {
   font-family: ns-r;
-  src: url(/resources/font/NotoSansKR-Regular.otf);
-}
-@font-face {
-  font-family: ns-t;
-  src: url(/resources/font/NotoSansKR-Thin.otf);
+  font-weight: normal;
+  src: url(/resources/font/NotoSansKR-Regular.ttf);
 }

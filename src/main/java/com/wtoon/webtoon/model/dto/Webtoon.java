@@ -17,13 +17,17 @@ public class Webtoon {
 	private String webtoonRating;
 	private String webtoonIsinseries;
 	private String webtoonIsdeleted;
+
+	private int webtoonWeeklyviews;
+	private int serialDay;
+
 	
 	public String getBr() {
 		return webtoonIntro.replaceAll("\r\n", "<br>");
 	}
 	
-	private Creator writer;
-	private Creator painter;
+	private Creator creator1;
+	private Creator creator2;
 	private List<String> hashtag;
 	private List<String> day;
 	private List<String> genre;

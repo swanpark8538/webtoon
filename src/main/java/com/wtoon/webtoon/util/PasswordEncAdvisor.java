@@ -25,7 +25,9 @@ public class PasswordEncAdvisor {
 	public void pwEncAdvice(JoinPoint jp) {
 		Object[] args = jp.getArgs();//매개변수 가져옴
 		Member member = (Member)args[0];//Member객체로 형변환
-		String encPw = bCryptPasswordEncoder.encode(member.getMemberPw());//암호화
-		member.setMemberPw(encPw);//Member객체의 pw를 암호화한 pw로 변경하여 저장
+		if(member.getMemberPw() != null) {
+			String encPw = bCryptPasswordEncoder.encode(member.getMemberPw());//암호화
+			member.setMemberPw(encPw);//Member객체의 pw를 암호화한 pw로 변경하여 저장
+		}
 	}
 }

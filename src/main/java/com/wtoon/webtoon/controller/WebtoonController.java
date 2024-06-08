@@ -27,6 +27,16 @@ public class WebtoonController {
 	private String root;
 	@Autowired
 	private FileUtils fileUtils;
+
+	//메인 웹툰 리스트 불러오기
+	@ResponseBody
+	@GetMapping()
+	public List list(String tab, String sort, String genre) {
+//		System.out.println(tab);
+//		System.out.println(sort);
+//		System.out.println(genre.equals(""));
+		return webtoonService.getWebtoonList(tab, sort, genre);
+	}
 	
 	@GetMapping(value = "/myWorks")
 	public String myWorks(int reqPage, Model model) {
@@ -91,6 +101,7 @@ public class WebtoonController {
 		}
 		return "common/msg";
 	}
+
 	
 	@GetMapping(value = "/delete")
 	public String deleteWebtoon(int webtoonNo, Model model) {
@@ -118,4 +129,5 @@ public class WebtoonController {
 		
 		return "common/msg";
 	}
+
 }
