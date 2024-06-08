@@ -34,11 +34,9 @@ public class WebtoonController {
 		//로그인 구현시 세션에서 멤버번호가져와서 변경 예정
 		int memberNo = -1;
 		System.out.println(memberNo);
-		//PageData pd = webtoonService.getMyWorksList(reqPage,memberNo);
-		//System.out.println(pd.getList());
-		//System.out.println(pd);
-		//model.addAttribute("list", pd.getList());
-		//model.addAttribute("pageNavi", pd.getPageNavi());
+		PageData pd = webtoonService.getMyWorksList(reqPage,memberNo);
+		model.addAttribute("list", pd.getList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
 		return "webtoon/myWorksList";
 	}
 	

@@ -11,7 +11,7 @@
 		SELECT * FROM member_tbl where member_id like #{memberId}||'%'
 	</select>
 	<insert id="insertWebtoon">
-		insert into webtoon_tbl values(WEBTOON_SEQ.nextval,#{webtoonTitle},#{webtoonThumbnail},#{webtoonIntro},#{webtoonRating},'1','0')
+		insert into webtoon_tbl values(WEBTOON_SEQ.nextval,#{webtoonTitle},#{webtoonThumbnail},#{webtoonIntro},#{webtoonRating},'1','0',0)
 		<selectKey resultType="int" order="AFTER" keyProperty="webtoonNo">
 			select max(webtoon_no) from webtoon_tbl
 		</selectKey>
@@ -37,7 +37,7 @@
 	
 	
 	<select id="selectSerialDay" resultType="String">
-		SELECT SERIAL_DAY FROM SERIAL_DAYS_TBL WHERE WEBTOON_NO = #{webtoonNo};
+		SELECT SERIAL_DAY FROM SERIAL_DAYS_TBL WHERE WEBTOON_NO = #{webtoonNo}
 	</select>
 
 	<resultMap type="webtoon" id="getMyWork">
@@ -51,19 +51,25 @@
 	</resultMap>
 	
 	<select id="selectMyWorksList" resultMap="getMyWork">
-	    SELECT 
-	        w.webtoon_no, w.webtoon_title, w.webtoon_thumbnail, w.webtoon_rating, w.webtoon_isinseries,
-	        COALESCE((
-	            SELECT AVG(r.rating)
-	            FROM RATING_TBL r
-	            WHERE r.webtoon_no = w.webtoon_no
-        	), -1) AS avg_rating
-	    FROM WEBTOON_TBL w
-	    WHERE w.webtoon_no IN (
-	        SELECT DISTINCT webtoon_no
-	        FROM creator_tbl
-	        WHERE member_no = #{memberNo}
-	    )
+		select * from
+			(select rownum rnum,w.* from
+		    	(SELECT 
+		       		 w.webtoon_no, w.webtoon_title, w.webtoon_thumbnail, w.webtoon_rating, w.webtoon_isinseries,
+		        	COALESCE((
+			            SELECT AVG(r.rating)
+			            FROM RATING_TBL r
+			            WHERE r.webtoon_no = w.webtoon_no
+		        	), -1) AS avg_rating
+		    	FROM WEBTOON_TBL w
+		    	WHERE w.webtoon_no IN (
+			        	SELECT DISTINCT webtoon_no
+			        	FROM creator_tbl
+			        	WHERE member_no = #{memberNo}
+		    		) order by 1 desc
+		    	)w
+			 )
+		where rnum between #{start} and #{end}
 	</select>
+	
 	
 </mapper>

@@ -11,5 +11,6 @@
 	<typeAliases>
 		<typeAlias type="com.wtoon.webtoon.member.model.dto.Member" alias="member"/>
 		<typeAlias type="com.wtoon.webtoon.model.dto.Genre" alias="genre"/>
+		<typeAlias type="com.wtoon.webtoon.model.dto.Webtoon" alias="webtoon"/>
 	</typeAliases>
 </configuration>

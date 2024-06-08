@@ -75,7 +75,7 @@ public class WebtoonService {
 	}
 
 	public PageData getMyWorksList(int reqPage, int memberNo) {
-		int numPerPage = 10;
+		int numPerPage = 2;//테스트용 값
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -83,12 +83,10 @@ public class WebtoonService {
 		map.put("end", end);
 		map.put("memberNo", memberNo);
 		List list = webtoonDao.getMyWorksList(map);
-		System.out.println(numPerPage);
-		System.out.println(list);
+		//System.out.println(list);
 		int totalCount = webtoonDao.totalMyWorksCount(memberNo);
-		int totalPage = totalCount%numPerPage == 0 ? totalCount/numPerPage : totalCount/numPerPage + 1;
-		
-		int pageNaviSize = 10;
+		int totalPage = totalCount%numPerPage == 0 ? totalCount/numPerPage : totalCount/numPerPage + 1;		
+		int pageNaviSize = 5;
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
 		String pageNavi = "";
 		if(pageNo != 1) {
