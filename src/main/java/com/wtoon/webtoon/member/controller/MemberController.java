@@ -1,5 +1,8 @@
 package com.wtoon.webtoon.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +31,17 @@ public class MemberController {
 	
 	@ResponseBody
 	@GetMapping(value="checkIdIsDuplicated")
-	public String idCheck(String memberId){
-		System.out.println(memberId);//확인용 !!!!
+	public Map idCheck(String memberId){
 		Member m = new Member();
 		m.setMemberId(memberId);
 		Member member = memberService.selectOneMember_BCrypt(m);
+		Map map = new HashMap<String, String>();
 		if(member != null) {
-			return "success";//중복X
+			map.put("response", "success");//중복X
 		}else {
-			return "fail";//중복O
+			map.put("response", "fail");//중복O
 		}
+		return map;
 	}
 	
 	//회원가입

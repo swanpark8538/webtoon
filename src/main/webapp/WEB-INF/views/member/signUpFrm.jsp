@@ -17,8 +17,6 @@
     />
     <!-- jquery -->
     <script src="/resources/js/jquery-3.6.0.js"></script>
-    <!-- 페이지 js -->
-    <script src="/resources/js/member/signUpFrm.js"></script>
     <!-- 기본 CSS -->
     <link href="/resources/css/default-psw.css" rel="stylesheet">
     <!-- 페이지 CSS -->
@@ -54,14 +52,9 @@
             <label for="memberId">
               <div class="inputDiv">
                 <!-- id만 autofocus 넣기. 페이지 로드 완료시 커서 위치이고, boolean형임. -->
-                <input
-                  type="text"
-                  name="memberId"
-                  id="memberId"
-                  required
-                  autofocus
-                />
+                <input type="text" name="memberId" id="memberId" required autofocus />
               </div>
+              <div id="memberIdMsg"></div>
             </label>
             <button
               type="button"
@@ -83,8 +76,9 @@
             </label>
             <label for="memberPw">
               <div class="inputDiv">
-                <input type="password" name="memberPw" id="memberPw" required />
+                <input type="password" name="memberPw" id="memberPw" required placeholder="영어와 숫자를 포함하여 총 6에서 15글자 사이"/>
               </div>
+              <div id="memberPwMsg"></div>
             </label>
           </div>
           <!-- //password -->
@@ -94,12 +88,14 @@
             <label for="memberPwRe">
               <div class="inputTitleDiv">
                 <span>비밀번호 확인</span>
+                <span>*</span>
               </div>
             </label>
             <label for="memberPwRe">
               <div class="inputDiv">
                 <input type="password" id="memberPwRe" required />
               </div>
+              <div id="memberPwReMsg"></div>
             </label>
           </div>
           <!-- //passwordRe -->
@@ -121,6 +117,7 @@
                   required
                 />
               </div>
+              <div id="memberNickNameMsg"></div>
             </label>
             <button
               type="button"
@@ -304,6 +301,8 @@
     <!-- 푸터 -->
     <jsp:include page="../common/footer.jsp"></jsp:include>
 
-    <script></script>
+    <!-- 페이지 js -->
+    <script src="/resources/js/member/signUpFrm.js"></script>
+    
   </body>
 </html>
