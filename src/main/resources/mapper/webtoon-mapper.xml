@@ -118,7 +118,16 @@
 			        	SELECT DISTINCT webtoon_no
 			        	FROM creator_tbl
 			        	WHERE member_no = #{memberNo}
-		    		) order by 1 desc
+		    		) 
+		    		order by 
+			    		<choose>
+							<when test="type==1">
+								1 desc
+							</when>
+							<when test="type==2">
+								2
+							</when>
+						</choose>
 		    	)w
 			 )
 		where rnum between #{start} and #{end}

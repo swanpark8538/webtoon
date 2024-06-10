@@ -437,7 +437,7 @@
 	        const checkDays = document.querySelectorAll('input[name="days"]:checked');
 	        const checkGenres = document.querySelectorAll('input[name="genres"]:checked');
 
-			if(webtoonTitle.value === ""){
+			if(webtoonTitle.value.trim() === ""){
 	        	noneInputFunc(event,"작품명을 입력해주세요.");
 			}else if(imgFile.files.length == 0){
 				noneInputFunc(event,"썸네일을 등록해주세요.");

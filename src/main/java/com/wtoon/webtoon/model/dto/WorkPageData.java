@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PageData {
+public class WorkPageData {
 	private List list;
 	private String pageNavi;
+	private int totalCount;
 }

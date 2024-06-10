@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wtoon.webtoon.model.dao.WebtoonDao;
-import com.wtoon.webtoon.model.dto.PageData;
+import com.wtoon.webtoon.model.dto.WorkPageData;
 import com.wtoon.webtoon.model.dto.Webtoon;
 
 @Service
@@ -84,14 +84,15 @@ public class WebtoonService {
 		return webtoonDao.deleteWebtoon(webtoonNo);
 	}
 
-	public PageData getMyWorksList(int reqPage, int memberNo) {
-		int numPerPage = 2;//테스트용 값
+	public WorkPageData getMyWorksList(int reqPage, int memberNo, int type) {
+		int numPerPage = 4;//테스트용 값
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("end", end);
 		map.put("memberNo", memberNo);
+		map.put("type",type);
 		List list = webtoonDao.getMyWorksList(map);
 		System.out.println(list);
 		int totalCount = webtoonDao.totalMyWorksCount(memberNo);
@@ -100,13 +101,13 @@ public class WebtoonService {
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
 		String pageNavi = "";
 		if(pageNo != 1) {
-			pageNavi = "<a href='/webtoon/myWorks?reqPage="+(pageNo-1)+"'>[이전]</a>";
+			pageNavi = "<a href='/webtoon/myWorks?reqPage="+(pageNo-1)+"&type="+type+"'>[이전]</a>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage == pageNo) {
 				pageNavi += "<span>"+pageNo+"</span>";				
 			}else {
-				pageNavi += "<a href='/webtoon/myWorks?reqPage="+pageNo+"'>"+pageNo+"</a>";				
+				pageNavi += "<a href='/webtoon/myWorks?reqPage="+pageNo+"&type="+type+"'>"+pageNo+"</a>";				
 			}
 			pageNo++;
 			if(pageNo > totalPage) {
@@ -114,10 +115,10 @@ public class WebtoonService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/webtoon/myWorks?reqPage="+pageNo+"'>[다음]</a>";
+			pageNavi += "<a href='/webtoon/myWorks?reqPage="+pageNo+"&type="+type+"'>[다음]</a>";
 		}
-		PageData pd = new PageData(list,pageNavi);
-		return pd;
+		WorkPageData wpd = new WorkPageData(list,pageNavi,totalCount);
+		return wpd;
 	}
 	
 	
