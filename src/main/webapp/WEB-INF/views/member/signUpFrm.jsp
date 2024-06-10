@@ -51,7 +51,6 @@
             </label>
             <label for="memberId">
               <div class="inputDiv">
-                <!-- id만 autofocus 넣기. 페이지 로드 완료시 커서 위치이고, boolean형임. -->
                 <input type="text" name="memberId" id="memberId" required autofocus />
               </div>
               <div id="memberIdMsg"></div>
@@ -76,7 +75,8 @@
             </label>
             <label for="memberPw">
               <div class="inputDiv">
-                <input type="password" name="memberPw" id="memberPw" required placeholder="영어와 숫자를 포함하여 총 6에서 15글자 사이"/>
+                <input type="password" name="memberPw" id="memberPw" required
+                  placeholder="영어와 숫자를 포함하여 6에서 15글자 사이"/>
               </div>
               <div id="memberPwMsg"></div>
             </label>
@@ -164,6 +164,7 @@
                 />
                 <span>03:00</span>
               </div>
+              <div id="memberEmailMsg"></div>
             </label>
             <button
               type="button"
@@ -193,6 +194,7 @@
                   required
                 />
               </div>
+              <div id="memberPhoneMsg"></div>
             </label>
             <button
               type="button"
@@ -255,6 +257,7 @@
                   required
                 />
               </div>
+              <div id="memberBirthdateMsg"></div>
             </label>
             <div class="dashDiv">
               <span>-</span>
@@ -269,6 +272,7 @@
                 />
                 <span>******</span>
               </div>
+              <div id="memberBirthdateMsg"></div>
             </label>
           </div>
           <!-- //birthdate -->

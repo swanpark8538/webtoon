@@ -29,12 +29,27 @@ public class MemberController {
 		return "member/signUpFrm";
 	}
 	
+	//아이디 중복 확인
 	@ResponseBody
 	@GetMapping(value="checkIdIsDuplicated")
-	public Map idCheck(String memberId){
+	public Map checkId(String memberId){
 		Member m = new Member();
 		m.setMemberId(memberId);
 		Member member = memberService.selectOneMember_BCrypt(m);
+		Map map = new HashMap<String, String>();
+		if(member != null) {
+			map.put("response", "success");//중복X
+		}else {
+			map.put("response", "fail");//중복O
+		}
+		return map;
+	}
+	
+	//전화번호 중복 확인
+	@ResponseBody
+	@GetMapping(value="checkPhoneIsDuplicated")
+	public Map phoneCheck(int memberPhone) {
+		Member member = memberService.checkPhone(memberPhone);
 		Map map = new HashMap<String, String>();
 		if(member != null) {
 			map.put("response", "success");//중복X

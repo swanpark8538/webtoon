@@ -14,4 +14,7 @@
 		</if>
 	</select>
 
+	<select id="checkPhone" resultType="member">
+		select * from member_tbl where member_phone = #{memberPhone}
+	</select>
 </mapper>

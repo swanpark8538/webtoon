@@ -93,3 +93,63 @@ document.getElementById("checkNickName").addEventListener("click", function(){
     memberNickNameMsg.textContent("한글로 2~6글자 사이");
   }
 });
+
+//이메일 제약조건 확인 + 카카오 주소 API 활용
+
+//전화번호 제약조건 확인 + 전화번호 본인인증
+document.getElementById("authPhone").addEventListener("click", function(){
+  const memberPhoneMsg = document.getElementById("memberPhoneMsg");
+  memberPhoneMsg.classList.remove(memberPhoneMsg.classList.item(0));
+  memberPhoneMsg.textContent = "";
+  const memberPhone = document.getElementById("memberPhone");
+  const phoneRegex = /^\d{10,11}$/;
+  if(phoneRegex(memberPhone)){
+    //전화번호 중복확인
+    $.ajax({
+      method: "get",
+      url: "/member/checkPhoneIsDuplicated",
+      data: {memberPhone: memberPhone},
+      dataType: "json",
+      success: function(data){
+        if(data.response = "success") {
+          //여기에 본인인증 API 실행
+        } else {
+          memberNickNameMsg.classList.add("inputMsg-error");
+          memberNickNameMsg.textContent = "이미 사용중인 전화번호입니다.";
+        }
+      },
+      error: function(data){
+        console.log(data);
+      }
+    })
+  } else {
+    memberPhoneMsg.classList.add("inputMsg-error");
+    memberPhoneMsg.textContent("숫자만으로 정확히 입력해주세요.");
+  }
+})
+
+//생년월일 제약조건 확인
+document.getElementById("memberBirthdate").addEventListener("change", function(){
+  const memberBirthdateMsg = document.getElementById("memberBirthdateMsg");
+  memberBirthdateMsg.classList.remove(memberBirthdateMsg.classList.item(0));
+  memberBirthdateMsg.textContent = "";
+  const memberBirthdate = document.getElementById("memberBirthdate");
+  const birthdateRegex = /^\d{6}$/;
+  if(!birthdateRegex(memberBirthdate)){
+    memberBirthdateMsg.classList.add("inputMsg-error");
+    memberBirthdateMsg.textContent = "주민등록번호 앞 6자리를 입력해주세요.";
+  }
+})
+
+//성별 제약조건 확인
+document.getElementById("memberGender").addEventListener("keyup", function(){
+  const memberGenderMsg = document.getElementById("memberGenderMsg");
+  memberGenderMsg.classList.remove(memberGenderMsg.classList.item(0));
+  memberGenderMsg.textContent = "";
+  const memberGender = document.getElementById("memberBirthdate");
+  const GenderRegex = /^\d{1}$/;
+  if(!GenderRegex(memberGender)){
+    memberGenderMsg.classList.add("inputMsg-error");
+    memberGenderMsg.textContent = "정수를 입력해주세요.";
+  }
+})
