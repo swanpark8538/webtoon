@@ -215,8 +215,8 @@
               <div class="inputDiv">
                 <input
                   type="text"
-                  name="addressMain"
-                  id="addressMain"
+                  name="memberAddressMain"
+                  id="memberAddressMain"
                   placeholder="주소를 검색해주세요."
                   readonly
                 />
@@ -224,8 +224,8 @@
               <div class="inputDiv">
                 <input
                   type="text"
-                  name="memberAddress"
-                  id="memberAddress"
+                  name="memberAddressDetail"
+                  id="memberAddressDetail"
                   placeholder="상세주소를 입력해주세요."
                 />
               </div>
@@ -281,8 +281,7 @@
         <div class="seperate seperate-right seperate-this"></div>
 
         <div>
-          이용약관 동의 부분. 지금은 상세주소 입력란에 회원의 전체주소 입력.
-          다음엔 상세주소의 name, id를 memberAddressDetail로 수정
+          이용약관 동의 부분
         </div>
 
         <div class="seperate seperate-right seperate-this"></div>
@@ -297,6 +296,7 @@
             가입하기
           </button>
         </div>
+        
       </main>
       <!-- //join-main -->
     </main>

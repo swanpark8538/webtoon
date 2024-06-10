@@ -1,4 +1,4 @@
-//아이디 제약조건&중복 확인
+//아이디 제약조건 확인 + 중복 확인
 document.getElementById("checkId").addEventListener("click", function(){
   const memberIdMsg = document.getElementById("memberIdMsg");
   memberIdMsg.classList.remove(memberIdMsg.classList.item(0));
@@ -46,7 +46,7 @@ document.getElementById("memberPw").addEventListener("keyup", function(){
   }
 });
 
-//비밀번호 확인시 비밀번호 일치여부 확인
+//비밀번호 일치여부 확인
 document.getElementById("memberPwRe").addEventListener("keyup", function(){
   const memberPwReMsg = document.getElementById("memberPwReMsg");
   memberPwReMsg.classList.remove(memberPwReMsg.classList.item(0));
