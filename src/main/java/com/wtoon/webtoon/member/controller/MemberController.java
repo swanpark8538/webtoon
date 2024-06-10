@@ -103,6 +103,15 @@ public class MemberController {
 			Integer signInFailCountLimit = 5;
 			model.addAttribute("signInFailCountLimit", signInFailCountLimit);
 			return "redirect:/member/signInFrm";
+			/*
+			 * 1. signInFailCount를 세션 말고 쿠키에 저장하고 만료날짜를 당일로 하자.
+			 * 2. 로그인 실패시마다 쿠키에 로그인 실패한 아이디를 넣어놓자.
+			 * 		- ex) memberId1 : abcd, memberId2 : 1234, ... , memberId5 : ab12
+			 * 3. signInFailCount가 5일 때
+			 * 		1) 쿠키에 key로 denySignIn을 set하고(value로는 뭐든..) 만료날짜를 다음날로 하자.
+			 * 		2) signInFailCount는 지우자.
+			 * 		3) 쿠키에서 로그인 실패한 아이디를 읽어와서 동일한 아이디가 2개 이상일 경우, 해당 아이디의 이메일로 비밀번호 바꾸라고 이메일 발송하자.
+			 */
 		}
 	}
 	
