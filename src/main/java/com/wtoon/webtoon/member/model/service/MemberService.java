@@ -32,6 +32,10 @@ public class MemberService {
 		*/
 		return memberDao.selectOneMember(m);
 	}
+
+	public Member checkPhone(int memberPhone) {
+		return memberDao.checkPhone(memberPhone);
+	}
 	
 	
 	

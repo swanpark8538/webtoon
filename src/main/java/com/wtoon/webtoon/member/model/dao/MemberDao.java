@@ -19,6 +19,11 @@ public class MemberDao {
 	public Member selectOneMember(Member m) {
 		return session.selectOne("member.selectOneMember", m);
 	}
+
+	public Member checkPhone(int memberPhone) {
+		return session.selectOne("member.checkPhone", memberPhone);
+	}
+
 	
 	
 }
