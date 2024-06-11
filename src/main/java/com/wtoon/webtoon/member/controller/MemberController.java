@@ -1,20 +1,26 @@
 package com.wtoon.webtoon.member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.wtoon.webtoon.member.model.dto.Member;
 import com.wtoon.webtoon.member.model.service.MemberService;
+import com.wtoon.webtoon.util.CookieUtils;
 
 @Controller
 @RequestMapping(value="/member")
@@ -22,6 +28,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private CookieUtils cookieUtils;
+	
 	
 	//회원가입 양식
 	@GetMapping(value="/signUpFrm")
@@ -86,32 +95,55 @@ public class MemberController {
 	
 	//로그인
 	@PostMapping(value="/signIn")
-	public String signIn(Member m, Model model, HttpSession session) {
+	public String signIn(Member m, Model model, HttpSession session, HttpServletResponse response,
+						@CookieValue(name = "signInFailCount", required = false) String signInFailCount,
+						@CookieValue(name = "memberIdArr", required = false) ArrayList<String> memberIdArr) {
 		
 		Member member = memberService.selectOneMember_BCrypt(m);
-		if(member != null) {
-			//로그인 성공시 session에 저장된 실패횟수 데이터를 삭제
-			session.removeAttribute("signInFailCount");
-			session.setAttribute("member", member);
-			return "redirect:/";
-		} else {
-			//로그인 실패시 session에 실패횟수를 저장
-			session.setAttribute("signInFailCount",
-								 session.getAttribute("signInFailCount") != null
-								 	? (Integer)session.getAttribute("signInFailCount")+1
-								 	: 1);
-			Integer signInFailCountLimit = 5;
-			model.addAttribute("signInFailCountLimit", signInFailCountLimit);
+		Cookie signInFailCountCookie = new Cookie("signInFailCount", null);
+		Cookie memberIdArrCookie = new Cookie("memberIdArr", null);
+		int signInFailCountLimit = 5;
+		
+		if(signInFailCount != null && Integer.parseInt(signInFailCount) == signInFailCountLimit) {
+			//로그인 시도 제한에 걸렸을 때
+			model.addAttribute("loginIsDenied", true);
 			return "redirect:/member/signInFrm";
-			/*
-			 * 1. signInFailCount를 세션 말고 쿠키에 저장하고 만료날짜를 당일로 하자.
-			 * 2. 로그인 실패시마다 쿠키에 로그인 실패한 아이디를 넣어놓자.
-			 * 		- ex) memberId1 : abcd, memberId2 : 1234, ... , memberId5 : ab12
-			 * 3. signInFailCount가 5일 때
-			 * 		1) 쿠키에 key로 denySignIn을 set하고(value로는 뭐든..) 만료날짜를 다음날로 하자.
-			 * 		2) signInFailCount는 지우자.
-			 * 		3) 쿠키에서 로그인 실패한 아이디를 읽어와서 동일한 아이디가 2개 이상일 경우, 해당 아이디의 이메일로 비밀번호 바꾸라고 이메일 발송하자.
-			 */
+			
+		}else if (member != null) {
+			//로그인 성공시
+			session.setAttribute("member", member);
+			signInFailCountCookie.setMaxAge(0);//0밀리초 = 삭제
+			memberIdArrCookie.setMaxAge(0);//0밀리초 = 삭제
+			response.addCookie(signInFailCountCookie);
+			response.addCookie(memberIdArrCookie);
+			return "redirect:/";
+			
+		} else {
+			//로그인 실패시
+			Gson gson = new Gson();
+			if(signInFailCount == null) {
+				//signInFailCount
+				signInFailCountCookie.setValue(Integer.toString(1));
+				signInFailCountCookie.setMaxAge(24 * 60 * 60);//24시간
+				//memberId
+				ArrayList<String> firstMemberIdArr = new ArrayList<String>();
+				firstMemberIdArr.add(m.getMemberId());
+				memberIdArrCookie.setValue(gson.toJson(firstMemberIdArr));
+				memberIdArrCookie.setMaxAge(24 * 60 * 60);//24시간
+			} else {
+				//signInFailCount
+				signInFailCount = Integer.toString(Integer.parseInt(signInFailCount)+1);
+				signInFailCountCookie.setValue(signInFailCount);
+				signInFailCountCookie.setMaxAge(24 * 60 * 60);//24시간
+				//memberId
+				memberIdArr.add(m.getMemberId());
+				memberIdArrCookie.setValue(gson.toJson(memberIdArr));
+				memberIdArrCookie.setMaxAge(24 * 60 * 60);//24시간
+			} 
+			response.addCookie(signInFailCountCookie);
+			response.addCookie(memberIdArrCookie);
+
+			return "redirect:/member/signInFrm";
 		}
 	}
 	
