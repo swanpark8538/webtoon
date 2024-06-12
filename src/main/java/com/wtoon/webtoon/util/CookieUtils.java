@@ -11,13 +11,13 @@ public class CookieUtils {
 	private Cookie[] cookies;
 	private Cookie cookie;
 	
-	//쿠키는 name : value 형태임. map의 key : value와 유사.
+	//쿠키는 name : value 형태임. 즉 map의 key : value와 유사.
 
 	public CookieUtils() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	// 객체 생성시에 request 객체를 받는 경우(쿠키이름으로 쿠키 값을 얻을 때!) -> 모든 쿠키 get
+	// 객체 생성시에 request 객체를 받는 경우
 	public CookieUtils(HttpServletRequest request) {
 		this.cookies = request.getCookies();
 	}
@@ -33,13 +33,13 @@ public class CookieUtils {
 	}
     
     // 쿠키 추가하는 메서드
-	public CookieUtils addCookie(String key, String value) {
-		this.cookie = new Cookie(key, value);
+	public CookieUtils addCookie(String name, String value) {
+		this.cookie = new Cookie(name, value);
 		return this;
 	}
 	
  	// 쿠키 추가후에 쿠키 만료일을 체이닝하는 메서드
-	public CookieUtils setExpire(int period) {
+	public CookieUtils setMaxAge(int period) {
 		this.cookie.setMaxAge(period);
 		return this;
 	}
@@ -62,7 +62,7 @@ public class CookieUtils {
 	response.addCookie(cookieUtils
 					.addCookie("refreshToken", refreshToken)
 					.setHttpOnly(true)
-					.setExpire(60 * 60 * 8)
+					.setMaxAge(60 * 60 * 8)
 					.build());
 	*/
 }

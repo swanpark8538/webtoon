@@ -112,15 +112,18 @@ public class MemberController {
 	public String signIn(Member m, Model model, HttpSession session, HttpServletResponse response,
 						@CookieValue(name = "signInFailCount", required = false) String signInFailCount,
 						@CookieValue(name = "memberIdArr", required = false) ArrayList<String> memberIdArr) {
+
+		//CookieUtils 사용 X 버전 코드
 		
 		Member member = memberService.selectOneMember_BCrypt(m);
+		int signInFailCountLimit = 5;
+
 		Cookie signInFailCountCookie = new Cookie("signInFailCount", null);
 		Cookie memberIdArrCookie = new Cookie("memberIdArr", null);
-		int signInFailCountLimit = 5;
 		
 		if(signInFailCount != null && Integer.parseInt(signInFailCount) == signInFailCountLimit) {
 			//로그인 시도 제한에 걸렸을 때
-			model.addAttribute("loginIsDenied", true);
+			model.addAttribute("loginIsdenied", true);
 			return "redirect:/member/signInFrm";
 			
 		}else if (member != null) {
@@ -135,13 +138,12 @@ public class MemberController {
 				response.addCookie(memberIdArrCookie);
 			}
 			return "redirect:/";
-			
 		} else {
 			//로그인 실패시
 			Gson gson = new Gson();
 			if(signInFailCount == null) {
 				//signInFailCount
-				signInFailCountCookie.setValue(Integer.toString(1));
+				signInFailCountCookie.setValue("1");
 				//memberId
 				ArrayList<String> firstMemberIdArr = new ArrayList<String>();
 				firstMemberIdArr.add(m.getMemberId());
@@ -161,6 +163,43 @@ public class MemberController {
 
 			return "redirect:/member/signInFrm";
 		}
+		
+		/*
+		//CookieUtils 사용 O 버전 코드
+		
+		Member member = memberService.selectOneMember_BCrypt(m);
+		int signInFailCountLimit = 5;
+		
+		if(signInFailCount != null && Integer.parseInt(signInFailCount) == signInFailCountLimit) {
+			//로그인 시도 제한에 걸렸을 때
+			model.addAttribute("loginIsdenied", true);
+			return "redirect:/member/signInFrm";
+		}else if (member != null) {
+			//로그인 성공시
+			session.setAttribute("member", member);
+			response.addCookie(cookieUtils.addCookie("signInFailCount", null).setMaxAge(0).build());
+			response.addCookie(cookieUtils.addCookie("memberIdArr", null).setMaxAge(0).build());
+			return "redirect:/";
+		}else {
+			//로그인 실패시
+			Gson gson = new Gson();
+			response.addCookie(cookieUtils
+								.addCookie("signInFailCount", signInFailCount==null
+									? "1"
+									: Integer.toString(Integer.parseInt(signInFailCount)+1))
+								.setMaxAge(24 * 60 * 60)
+								.build());
+			ArrayList<String> firstMemberIdArr = new ArrayList<String>();
+			response.addCookie(cookieUtils
+								.addCookie("memberIdArr", memberIdArr==null
+									? gson.toJson(firstMemberIdArr.add(m.getMemberId()))
+									: gson.toJson(memberIdArr.add(m.getMemberId())))
+								.setMaxAge(24 * 60 * 60)
+								.build());
+			
+			return "redirect:/member/signInFrm";
+		}
+		*/
 	}
 	
 	//로그아웃
