@@ -3,7 +3,7 @@
 <mapper namespace="member">
 
 	<insert id="insertMember">
-	insert into member_tbl values (member_seq.nextval, #{memberId}, #{memberPw}, #{memberNickName}, #{memberName}, #{memberEmail}, #{memberPhone}, #{memberAddressPrime}, #{memberAddressDetail}, #{memberBirthdate}, #{memberGender}, #{memberSocial},
+	insert into member_tbl values (member_seq.nextval, #{memberId}, #{memberPw}, #{memberNickname}, #{memberName}, #{memberEmail}, #{memberPhone}, #{memberAddressPrime}, #{memberAddressDetail}, #{memberBirthdate}, #{memberGender}, #{memberSocial},
 								   sysdate, default, default, default)
 	</insert>
 	
@@ -17,4 +17,9 @@
 	<select id="checkPhone" resultType="member">
 		select * from member_tbl where member_phone = #{memberPhone}
 	</select>
+	
+	<select id="checkNickname" resultType="member">
+		select * from member_tbl where member_nickname = #{memberNickname}
+	</select>
+	
 </mapper>

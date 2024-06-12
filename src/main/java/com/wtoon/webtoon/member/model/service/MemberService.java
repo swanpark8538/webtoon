@@ -36,6 +36,10 @@ public class MemberService {
 	public Member checkPhone(int memberPhone) {
 		return memberDao.checkPhone(memberPhone);
 	}
+
+	public Member checkNickname(String memberNickname) {
+		return memberDao.checkNickname(memberNickname);
+	}
 	
 	
 	

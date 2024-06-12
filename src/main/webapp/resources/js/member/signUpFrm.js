@@ -36,13 +36,13 @@ document.getElementById("memberPw").addEventListener("keyup", function(){
   memberPwMsg.classList.remove(memberPwMsg.classList.item(0));
   memberPwMsg.textContent = "";
   const memberPw = document.getElementById("memberPw").value;
-  const pwRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,20}$/;//대문자(영어), 소문자(영어), 숫자, 특수문자 각 1개씩 포함하여 6~20자 사이
-  if(pwRegex(memberPw)){
+  const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,20}$/;//영어(1글자 이상 필수), 숫자(1글자 이상 필수), 특수문자(선택사항)를 포함하여 6~20자 사이
+  if(pwRegex.test(memberPw)){
     memberPwMsg.classList.add("inputMsg-success");
-    memberPwMsg.textContent("사용 가능한 비밀번호입니다.");
+    memberPwMsg.textContent = "사용 가능한 비밀번호입니다.";
   }else{
     memberPwMsg.classList.add("inputMsg-error");
-    memberPwMsg.textContent("대문자(영어), 소문자(영어), 숫자, 특수기호를 모두 포함하여 6~20글자 사이");
+    memberPwMsg.textContent = "영어, 숫자를 반드시 포함하여 6~20글자 사이";
   }
 });
 
@@ -55,33 +55,33 @@ document.getElementById("memberPwRe").addEventListener("keyup", function(){
   const memberPwRe = document.getElementById("memberPwRe").value;
   if(memberPw == memberPwRe){
     memberPwReMsg.classList.add("inputMsg-success");
-    memberPwReMsg.textContent("비밀번호 일치");
+    memberPwReMsg.textContent = "비밀번호 일치";
   }else{
     memberPwReMsg.classList.add("inputMsg-error");
-    memberPwReMsg.textContent("비밀번호 불일치");
+    memberPwReMsg.textContent = "비밀번호 불일치";
   }
 });
 
-//닉네임 제약조건 확인
-document.getElementById("checkNickName").addEventListener("click", function(){
-  const memberNickNameMsg = document.getElementById("memberNickNameMsg");
-  memberNickNameMsg.classList.remove(memberNickNameMsg.classList.item(0));
-  memberNickNameMsg.textContent = "";
-  const memberNickName = document.getElementById("memberNickName").value;
-  const nickNameRegex = /^[가-힣]{2,6}$/;
-  if(nickNameRegex(memberNickName)){
+//닉네임 제약조건 확인 + 중복 확인
+document.getElementById("checkNickname").addEventListener("click", function(){
+  const memberNicknameMsg = document.getElementById("memberNicknameMsg");
+  memberNicknameMsg.classList.remove(memberNicknameMsg.classList.item(0));
+  memberNicknameMsg.textContent = "";
+  const memberNickname = document.getElementById("memberNickname").value;
+  const nicknameRegex = /^[A-Za-z0-9가-힣]{2,12}$/;
+  if(nicknameRegex.test(memberNickname)){
     $.ajax({
       method: "get",
-      url: "/member/checkNickNameIsDuplicated",
-      data: {memberNickName: memberNickName},
+      url: "/member/checkNicknameIsDuplicated",
+      data: {memberNickname: memberNickname},
       dataType: "json",
       success: function(data){
         if(data.response = "success") {
-          memberNickNameMsg.classList.add("inputMsg-success");
-          memberNickNameMsg.textContent = "사용 가능한 닉네임입니다.";
+          memberNicknameMsg.classList.add("inputMsg-success");
+          memberNicknameMsg.textContent = "사용 가능한 닉네임입니다.";
         } else {
-          memberNickNameMsg.classList.add("inputMsg-error");
-          memberNickNameMsg.textContent = "이미 사용중인 닉네임입니다.";
+          memberNicknameMsg.classList.add("inputMsg-error");
+          memberNicknameMsg.textContent = "이미 사용중인 닉네임입니다.";
         }
       },
       error: function(data){
@@ -89,8 +89,8 @@ document.getElementById("checkNickName").addEventListener("click", function(){
       }
     })
   }else{
-    memberNickNameMsg.classList.add("inputMsg-error");
-    memberNickNameMsg.textContent("한글로 2~6글자 사이");
+    memberNicknameMsg.classList.add("inputMsg-error");
+    memberNicknameMsg.textContent = "2~20글자 사이를 입력해주세요.";
   }
 });
 
@@ -103,7 +103,7 @@ document.getElementById("authPhone").addEventListener("click", function(){
   memberPhoneMsg.textContent = "";
   const memberPhone = document.getElementById("memberPhone");
   const phoneRegex = /^\d{10,11}$/;
-  if(phoneRegex(memberPhone)){
+  if(phoneRegex.test(memberPhone)){
     //전화번호 중복확인
     $.ajax({
       method: "get",
@@ -124,7 +124,7 @@ document.getElementById("authPhone").addEventListener("click", function(){
     })
   } else {
     memberPhoneMsg.classList.add("inputMsg-error");
-    memberPhoneMsg.textContent("숫자만으로 정확히 입력해주세요.");
+    memberPhoneMsg.textContent = "숫자만으로 정확히 입력해주세요.";
   }
 })
 
@@ -133,11 +133,11 @@ document.getElementById("memberBirthdate").addEventListener("change", function()
   const memberBirthdateMsg = document.getElementById("memberBirthdateMsg");
   memberBirthdateMsg.classList.remove(memberBirthdateMsg.classList.item(0));
   memberBirthdateMsg.textContent = "";
-  const memberBirthdate = document.getElementById("memberBirthdate");
-  const birthdateRegex = /^\d{6}$/;
-  if(!birthdateRegex(memberBirthdate)){
+  const memberBirthdate = document.getElementById("memberBirthdate").value;
+  const birthdateRegex = /^(?:\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))$/;
+  if(!birthdateRegex.test(memberBirthdate)){
     memberBirthdateMsg.classList.add("inputMsg-error");
-    memberBirthdateMsg.textContent = "주민등록번호 앞 6자리를 입력해주세요.";
+    memberBirthdateMsg.textContent = "잘못 입력했습니다.";
   }
 })
 
@@ -146,9 +146,9 @@ document.getElementById("memberGender").addEventListener("keyup", function(){
   const memberGenderMsg = document.getElementById("memberGenderMsg");
   memberGenderMsg.classList.remove(memberGenderMsg.classList.item(0));
   memberGenderMsg.textContent = "";
-  const memberGender = document.getElementById("memberBirthdate");
+  const memberGender = document.getElementById("memberGender").value;
   const GenderRegex = /^\d{1}$/;
-  if(!GenderRegex(memberGender)){
+  if(!GenderRegex.test(memberGender)){
     memberGenderMsg.classList.add("inputMsg-error");
     memberGenderMsg.textContent = "정수를 입력해주세요.";
   }

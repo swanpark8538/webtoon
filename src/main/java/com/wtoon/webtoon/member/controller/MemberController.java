@@ -57,8 +57,22 @@ public class MemberController {
 	//전화번호 중복 확인
 	@ResponseBody
 	@GetMapping(value="checkPhoneIsDuplicated")
-	public Map phoneCheck(int memberPhone) {
+	public Map checkPhone(int memberPhone) {
 		Member member = memberService.checkPhone(memberPhone);
+		Map map = new HashMap<String, String>();
+		if(member != null) {
+			map.put("response", "success");//중복X
+		}else {
+			map.put("response", "fail");//중복O
+		}
+		return map;
+	}
+	
+	//닉네임 중복 확인
+	@ResponseBody
+	@GetMapping(value="checkNicknameIsDuplicated")
+	public Map checkNickname(String memberNickname) {
+		Member member = memberService.checkNickname(memberNickname);
 		Map map = new HashMap<String, String>();
 		if(member != null) {
 			map.put("response", "success");//중복X
@@ -112,10 +126,14 @@ public class MemberController {
 		}else if (member != null) {
 			//로그인 성공시
 			session.setAttribute("member", member);
-			signInFailCountCookie.setMaxAge(0);//0밀리초 = 삭제
-			memberIdArrCookie.setMaxAge(0);//0밀리초 = 삭제
-			response.addCookie(signInFailCountCookie);
-			response.addCookie(memberIdArrCookie);
+			if(signInFailCount != null) {
+				signInFailCountCookie.setMaxAge(0);//0밀리초 = 삭제
+				response.addCookie(signInFailCountCookie);
+			}
+			if(memberIdArr != null) {
+				memberIdArrCookie.setMaxAge(0);//0밀리초 = 삭제
+				response.addCookie(memberIdArrCookie);
+			}
 			return "redirect:/";
 			
 		} else {
@@ -124,22 +142,20 @@ public class MemberController {
 			if(signInFailCount == null) {
 				//signInFailCount
 				signInFailCountCookie.setValue(Integer.toString(1));
-				signInFailCountCookie.setMaxAge(24 * 60 * 60);//24시간
 				//memberId
 				ArrayList<String> firstMemberIdArr = new ArrayList<String>();
 				firstMemberIdArr.add(m.getMemberId());
 				memberIdArrCookie.setValue(gson.toJson(firstMemberIdArr));
-				memberIdArrCookie.setMaxAge(24 * 60 * 60);//24시간
 			} else {
 				//signInFailCount
 				signInFailCount = Integer.toString(Integer.parseInt(signInFailCount)+1);
 				signInFailCountCookie.setValue(signInFailCount);
-				signInFailCountCookie.setMaxAge(24 * 60 * 60);//24시간
 				//memberId
 				memberIdArr.add(m.getMemberId());
 				memberIdArrCookie.setValue(gson.toJson(memberIdArr));
-				memberIdArrCookie.setMaxAge(24 * 60 * 60);//24시간
 			} 
+			signInFailCountCookie.setMaxAge(24 * 60 * 60);//24시간
+			memberIdArrCookie.setMaxAge(24 * 60 * 60);//24시간
 			response.addCookie(signInFailCountCookie);
 			response.addCookie(memberIdArrCookie);
 

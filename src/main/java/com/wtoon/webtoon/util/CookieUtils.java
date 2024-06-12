@@ -3,6 +3,9 @@ package com.wtoon.webtoon.util;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CookieUtils {
 	
 	private Cookie[] cookies;

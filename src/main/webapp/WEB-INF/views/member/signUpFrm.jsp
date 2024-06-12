@@ -102,27 +102,27 @@
 
           <!-- nickName -->
           <div class="inputWrap-default">
-            <label for="memberNickName">
+            <label for="memberNickname">
               <div class="inputTitleDiv">
                 <span>닉네임</span>
                 <span>*</span>
               </div>
             </label>
-            <label for="memberNickName">
+            <label for="memberNickname">
               <div class="inputDiv">
                 <input
                   type="text"
-                  name="memberNickName"
-                  id="memberNickName"
+                  name="memberNickname"
+                  id="memberNickname"
                   required
                 />
               </div>
-              <div id="memberNickNameMsg"></div>
+              <div id="memberNicknameMsg"></div>
             </label>
             <button
               type="button"
               class="btn-default btn-bg-blue_light"
-              id="checkNickName"
+              id="checkNickname"
             >
               중복 확인
             </button>
@@ -272,7 +272,7 @@
                 />
                 <span>******</span>
               </div>
-              <div id="memberBirthdateMsg"></div>
+              <div id="memberGenderMsg"></div>
             </label>
           </div>
           <!-- //birthdate -->
