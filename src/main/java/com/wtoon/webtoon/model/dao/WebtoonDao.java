@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.wtoon.webtoon.model.dto.Creator;
 import com.wtoon.webtoon.model.dto.Webtoon;
 
 @Repository
@@ -61,6 +62,38 @@ public class WebtoonDao {
 
 	public int totalMyWorksCount(int memberNo) {
 		return session.selectOne("webtoon.selectMyWorksCount", memberNo);
+	}
+
+	public Webtoon getMyWork(int webtoonNo) {
+		return session.selectOne("webtoon.selectMyWork", webtoonNo);
+	}
+	
+	public int updateMyWork(Webtoon webtoon) {
+		return session.update("webtoon.updateMyWork", webtoon);
+	}
+
+	public int updateCreator(Creator creator) {
+		return session.update("webtoon.updateCreator", creator);
+	}
+
+	public int selectDaysCount(int webtoonNo) {
+		return session.selectOne("webtoon.selectDaysCount", webtoonNo);
+	}
+
+	public int deleteDays(int webtoonNo) {
+		return session.delete("webtoon.deleteDays", webtoonNo);
+	}
+
+	public int selectGenresCount(int webtoonNo) {
+		return session.selectOne("webtoon.selectGenresCount", webtoonNo);
+	}
+
+	public int deleteGenres(int webtoonNo) {
+		return session.delete("webtoon.deleteGenres", webtoonNo);
+	}
+
+	public int deleteTags(HashMap<String, Object> map) {
+		return session.delete("webtoon.deleteTags", map);
 	}
 
 
