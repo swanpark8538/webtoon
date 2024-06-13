@@ -15,7 +15,7 @@ public class Member {
 	private int memberNo;
 	private String memberId;			//일반 : ID / 구글 : google_ID / 네이버 : naver_ID / 카카오 : kakao_ID
 	private String memberPw;
-	private String memberNickName;		//소셜로그인시 중복 안 되도록 "회원 이름_v1" 이런 식으로 자동으로 저장
+	private String memberNickname;		//소셜로그인시 중복 안 되도록 "회원 이름_v1" 이런 식으로 자동으로 저장
 	private String memberName;
 	private String memberEmail;
 	private int memberPhone;
@@ -25,7 +25,7 @@ public class Member {
 	private int memberGender;			//2n이면 여성, 2n-1이면 남성.
 	private String memberSocial;		//일반 회원가입 : null, 구글 : google, 네이버 : naver, 카카오 : kakao
 	private Date regDate;
-	private char memberIsBlocked;		//check in / '0' : 차단 X, '1' : 차단 O
-	private char adultIsAuthed;			//check in / '0' : 인증 X, '1' : 인증 O
-	private char memberIsDeleted;		//check in / '0' : 삭제 X, '1' : 삭제 O
+	private char memberIsblocked;		//check in / '0' : 차단 X, '1' : 차단 O
+	private char adultIsauthed;			//check in / '0' : 인증 X, '1' : 인증 O
+	private char memberIsdeleted;		//check in / '0' : 삭제 X, '1' : 삭제 O
 }

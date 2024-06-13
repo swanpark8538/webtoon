@@ -24,6 +24,10 @@ public class MemberDao {
 		return session.selectOne("member.checkPhone", memberPhone);
 	}
 
+	public Member checkNickname(String memberNickname) {
+		return session.selectOne("member.checkNickname", memberNickname);
+	}
+
 	
 	
 }

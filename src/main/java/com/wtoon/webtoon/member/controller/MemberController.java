@@ -1,20 +1,26 @@
 package com.wtoon.webtoon.member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.wtoon.webtoon.member.model.dto.Member;
 import com.wtoon.webtoon.member.model.service.MemberService;
+import com.wtoon.webtoon.util.CookieUtils;
 
 @Controller
 @RequestMapping(value="/member")
@@ -22,6 +28,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private CookieUtils cookieUtils;
+	
 	
 	//회원가입 양식
 	@GetMapping(value="/signUpFrm")
@@ -48,8 +57,22 @@ public class MemberController {
 	//전화번호 중복 확인
 	@ResponseBody
 	@GetMapping(value="checkPhoneIsDuplicated")
-	public Map phoneCheck(int memberPhone) {
+	public Map checkPhone(int memberPhone) {
 		Member member = memberService.checkPhone(memberPhone);
+		Map map = new HashMap<String, String>();
+		if(member != null) {
+			map.put("response", "success");//중복X
+		}else {
+			map.put("response", "fail");//중복O
+		}
+		return map;
+	}
+	
+	//닉네임 중복 확인
+	@ResponseBody
+	@GetMapping(value="checkNicknameIsDuplicated")
+	public Map checkNickname(String memberNickname) {
+		Member member = memberService.checkNickname(memberNickname);
 		Map map = new HashMap<String, String>();
 		if(member != null) {
 			map.put("response", "success");//중복X
@@ -86,24 +109,97 @@ public class MemberController {
 	
 	//로그인
 	@PostMapping(value="/signIn")
-	public String signIn(Member m, Model model, HttpSession session) {
+	public String signIn(Member m, Model model, HttpSession session, HttpServletResponse response,
+						@CookieValue(name = "signInFailCount", required = false) String signInFailCount,
+						@CookieValue(name = "memberIdArr", required = false) ArrayList<String> memberIdArr) {
+
+		//CookieUtils 사용 X 버전 코드
 		
 		Member member = memberService.selectOneMember_BCrypt(m);
-		if(member != null) {
-			//로그인 성공시 session에 저장된 실패횟수 데이터를 삭제
-			session.removeAttribute("signInFailCount");
+		int signInFailCountLimit = 5;
+
+		Cookie signInFailCountCookie = new Cookie("signInFailCount", null);
+		Cookie memberIdArrCookie = new Cookie("memberIdArr", null);
+		
+		if(signInFailCount != null && Integer.parseInt(signInFailCount) == signInFailCountLimit) {
+			//로그인 시도 제한에 걸렸을 때
+			model.addAttribute("loginIsdenied", true);
+			return "redirect:/member/signInFrm";
+			
+		}else if (member != null) {
+			//로그인 성공시
 			session.setAttribute("member", member);
+			if(signInFailCount != null) {
+				signInFailCountCookie.setMaxAge(0);//0밀리초 = 삭제
+				response.addCookie(signInFailCountCookie);
+			}
+			if(memberIdArr != null) {
+				memberIdArrCookie.setMaxAge(0);//0밀리초 = 삭제
+				response.addCookie(memberIdArrCookie);
+			}
 			return "redirect:/";
 		} else {
-			//로그인 실패시 session에 실패횟수를 저장
-			session.setAttribute("signInFailCount",
-								 session.getAttribute("signInFailCount") != null
-								 	? (Integer)session.getAttribute("signInFailCount")+1
-								 	: 1);
-			Integer signInFailCountLimit = 5;
-			model.addAttribute("signInFailCountLimit", signInFailCountLimit);
+			//로그인 실패시
+			Gson gson = new Gson();
+			if(signInFailCount == null) {
+				//signInFailCount
+				signInFailCountCookie.setValue("1");
+				//memberId
+				ArrayList<String> firstMemberIdArr = new ArrayList<String>();
+				firstMemberIdArr.add(m.getMemberId());
+				memberIdArrCookie.setValue(gson.toJson(firstMemberIdArr));
+			} else {
+				//signInFailCount
+				signInFailCount = Integer.toString(Integer.parseInt(signInFailCount)+1);
+				signInFailCountCookie.setValue(signInFailCount);
+				//memberId
+				memberIdArr.add(m.getMemberId());
+				memberIdArrCookie.setValue(gson.toJson(memberIdArr));
+			} 
+			signInFailCountCookie.setMaxAge(24 * 60 * 60);//24시간
+			memberIdArrCookie.setMaxAge(24 * 60 * 60);//24시간
+			response.addCookie(signInFailCountCookie);
+			response.addCookie(memberIdArrCookie);
+
 			return "redirect:/member/signInFrm";
 		}
+		
+		/*
+		//CookieUtils 사용 O 버전 코드
+		
+		Member member = memberService.selectOneMember_BCrypt(m);
+		int signInFailCountLimit = 5;
+		
+		if(signInFailCount != null && Integer.parseInt(signInFailCount) == signInFailCountLimit) {
+			//로그인 시도 제한에 걸렸을 때
+			model.addAttribute("loginIsdenied", true);
+			return "redirect:/member/signInFrm";
+		}else if (member != null) {
+			//로그인 성공시
+			session.setAttribute("member", member);
+			response.addCookie(cookieUtils.addCookie("signInFailCount", null).setMaxAge(0).build());
+			response.addCookie(cookieUtils.addCookie("memberIdArr", null).setMaxAge(0).build());
+			return "redirect:/";
+		}else {
+			//로그인 실패시
+			Gson gson = new Gson();
+			response.addCookie(cookieUtils
+								.addCookie("signInFailCount", signInFailCount==null
+									? "1"
+									: Integer.toString(Integer.parseInt(signInFailCount)+1))
+								.setMaxAge(24 * 60 * 60)
+								.build());
+			ArrayList<String> firstMemberIdArr = new ArrayList<String>();
+			response.addCookie(cookieUtils
+								.addCookie("memberIdArr", memberIdArr==null
+									? gson.toJson(firstMemberIdArr.add(m.getMemberId()))
+									: gson.toJson(memberIdArr.add(m.getMemberId())))
+								.setMaxAge(24 * 60 * 60)
+								.build());
+			
+			return "redirect:/member/signInFrm";
+		}
+		*/
 	}
 	
 	//로그아웃
