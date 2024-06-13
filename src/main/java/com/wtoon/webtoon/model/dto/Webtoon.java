@@ -31,10 +31,13 @@ public class Webtoon {
 	
 	private Creator creator1;
 	private Creator creator2;
+	private String writerStr;
+	private String painterStr;
+	
 	private List<String> hashtag;
 	private List<String> day; //연재요일
 	private List<String> genre;
-	private int avgRating;	//평균별점
+	private double avgRating;	//평균별점
 	
     // 요일 번호와 요일 이름 매핑
     private static final Map<String, String> DAY_MAP = Stream.of(new String[][] {

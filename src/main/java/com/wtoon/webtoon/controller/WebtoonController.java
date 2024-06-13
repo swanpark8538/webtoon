@@ -31,11 +31,14 @@ public class WebtoonController {
 	//메인 웹툰 리스트 불러오기
 	@ResponseBody
 	@GetMapping()
-	public List list(String tab, String sort, String genre) {
+	public List list(String tab, String sort, String genre, Model model) {
+		List list = webtoonService.getWebtoonList(tab, sort, genre);
 //		System.out.println(tab);
 //		System.out.println(sort);
 //		System.out.println(genre.equals(""));
-		return webtoonService.getWebtoonList(tab, sort, genre);
+//		model.addAttribute("list", list);
+//		return "webtoon/webtoonList";
+		return list;
 	}
 	
 	@GetMapping(value = "/myWorks")

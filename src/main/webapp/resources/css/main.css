@@ -1,22 +1,47 @@
 @charset "UTF-8";
 
 .contents.main{width: calc(100% + 80px); max-width: calc(100% + 80px); margin-left: -40px; padding: 0;}
-.main_tab{margin-top: -1px;}
+.main_tab{margin-top: -1px; padding-bottom: 52px;}
 .main_tab>.tab_btns{position: sticky; top: 64px; display: flex; justify-content: center; gap: 8px; padding-top: 12px; background-color: #fff; z-index: 1001;}
 .main_tab>.tab_btns::after{content: ""; display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; border-bottom: 1px solid var(--line_03);}
 .main_tab>.tab_btns>.tab_btn{padding: 0 12px; border-bottom: 2px solid transparent; font-size: 15px; line-height: 58px; z-index: 10;}
 .main_tab>.tab_btns>.tab_btn.active{border-bottom: 2px solid var(--main_01); color: var(--main_01); font-family: ns-b;}
 .main_tab>.tab_contents{width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 40px;}
-.main_tab>.tab_contents>.tab_content{padding: 24px 0;}
+.main_tab>.tab_contents>.tab_content{padding: 48px 0;}
+.main_tab .title_area{display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;}
+.main_tab .title_area>h3{margin: 0;}
 
+.main_tab .sort_btns{display: flex; align-items: center;}
+.main_tab .sort_btns>.sort_btn{display: block; padding: 0 7px; font-size: 14px; line-height: 30px;}
 .main_tab .sort_btns>.sort_btn.active{color: var(--main_01); font-family: ns-b;}
+.main_tab .sort_btns>.sort_btn+.sort_btn{position: relative;}
+.main_tab .sort_btns>.sort_btn+.sort_btn::before{content: ""; display: block; position: absolute; left: 0; top: 10px; width: 1px; height: 10px; border-left: 1px solid var(--line_02);}
 
-.main_tab .genre_btns>.genre_btn.active{color: var(--main_01); font-family: ns-b;}
+.main_tab .genre_btns{display: flex; flex-wrap: wrap; gap: 8px; margin: -2px 0 22px;}
+.main_tab .genre_btns>.genre_btn{margin: 2px 0; padding: 0 12px; border: 1px solid var(--line_02); border-radius: 4px; color: var(--gray_03); font-size: 14px; line-height: 36px;}
+.main_tab .genre_btns>.genre_btn.active{border-color: var(--main_01); background-color: var(--main_01); color: #fff; font-family: ns-b;}
 
-.recommend_area{padding: 24px 0;}
+/* .recommend_area{padding: 24px 0;} */
 .recommend_list{display: flex; gap: 20px;}
 .recommend_list .list_item>.comics_thumb{height: 190px; background-color: #eee;}
 .recommend_list .list_item>.comics_info{margin-top: 12px;}
 .recommend_list .list_item .comics_title{font-size: 15px; line-height: 21px;}
 .recommend_list .list_item .comics_creators{margin-top: 4px; font-size: 14px; line-height: 21px;}
 .recommend_list .list_item .comics_intro{display: -webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; color: var(--gray_03); font-size: 14px; line-height: 21px;}
+
+#comicsList_area>ul{display: flex;}
+.allday_list>li{flex: 1; margin-left: -1px; border: 1px solid var(--line_03);}
+.allday_list .day_title{margin: 0; font-size: 14px; line-height: 45px; text-align: center;}
+.allday_list>li.active{position: relative; background-color: rgba(0, 183, 241, 0.2);}
+.allday_list>li.active::after{content: ""; display: block; position: absolute; left: -1px; right: -1px; top: -1px; height: 46px; border: 1px solid var(--main_01);}
+.allday_list>li.active>.day_title{position: relative; background-color: var(--main_01); color: #fff;}
+.allday_list .day_list{padding: 16px 8px 0;}
+#comicsList_area ul li a{display: block; padding-bottom: 24px;}
+#comicsList_area>ul .item_thumb{width: 100%; height: 220px; }
+#comicsList_area>ul .item_thumb>img{display: block; width: 100%; height: 100%; object-fit: cover; object-position: center;}
+#comicsList_area>ul .item_title{margin-top: 12px; font-size: 15px; line-height: 21px;}
+
+.full_list{gap: 20px;}
+.full_list>li{width: calc((100% - 36px)/ 4);}
+#comicsList_area>ul .creators{margin-top: 4px; font-size: 14px; line-height: 21px;}
+#comicsList_area>ul .avgRating{margin-top: 4px; padding-left: 16px; background: url(/resources/img/icon_star_yellow.svg) no-repeat left center / 14px; color: var(--gray_03); font-size: 14px; line-height: 21px;}
