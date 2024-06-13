@@ -84,13 +84,14 @@
 		insert into webtoon_genres_tbl values(#{webtoonNo},#{genreNo})
 	</insert>
 	<insert id="insertTag">
-		insert into hashtags_tbl values(#{webtoonNo},#{hashTag})
+		insert into hashtags_tbl values(#{webtoonNo},#{hashtag})
 	</insert>
 	<update id="deleteWebtoon">
-		update webtoon_tbl set WEBTOON_ISDELETED = '1' where webtoonNo=#{webtoonNo}
+		update webtoon_tbl set WEBTOON_ISDELETED = '1' where webtoon_no=#{webtoonNo}
 	</update>
+	
 	<select id="selectMyWorksCount" resultType="int">
-		select count(*) from (select distinct webtoon_no from creator_tbl where member_no=#{memberNo})
+		select count(*) from (select distinct webtoon_no from creator_tbl where member_no=#{memberNo})c join webtoon_tbl w on c.webtoon_no=w.webtoon_no where w.webtoon_isdeleted='0'
 	</select>
 	
 	
@@ -123,7 +124,7 @@
 			        	SELECT DISTINCT webtoon_no
 			        	FROM creator_tbl
 			        	WHERE member_no = #{memberNo}
-		    		) 
+		    		) and w.webtoon_isdeleted='0'
 		    		order by 
 			    		<choose>
 							<when test="type==1">
@@ -138,5 +139,53 @@
 		where rnum between #{start} and #{end}
 	</select>
 	
-	
+	<resultMap type="webtoon" id="getMyWorkInfo">
+	    <result column="webtoon_no" property="webtoonNo" />
+	    <result column="webtoon_title" property="webtoonTitle" />
+	    <result column="webtoon_intro" property="webtoonIntro" />
+	    <result column="webtoon_thumbnail" property="webtoonThumbnail" />
+	    <result column="webtoon_rating" property="webtoonRating" />
+	    <result column="webtoon_isinseries" property="webtoonIsinseries" />
+	    <association property="creator1" javaType="Creator" select="selectWriter" column="webtoon_no"/>
+	    <association property="creator2" javaType="Creator" select="selectPainter" column="webtoon_no"/>
+	    <collection property="day" ofType="String" select="selectSerialDay" javaType="java.util.List" column="webtoon_no"/>
+	    <collection property="genre" ofType="String" select="selectGenre" javaType="java.util.List" column="webtoon_no"/>
+	    <collection property="hashtag" ofType="String" select="selectHashtag" javaType="java.util.List" column="webtoon_no"/>
+	</resultMap>
+	<select id="selectMyWork" resultMap="getMyWorkInfo">
+		select webtoon_no,webtoon_title,webtoon_intro,webtoon_thumbnail,webtoon_rating,webtoon_isinseries from webtoon_tbl where webtoon_no=#{webtoonNo}
+	</select>
+	<select id="selectGenre" resultType="int">
+		select genre_no from webtoon_genres_tbl where webtoon_no=#{webtoonNo}
+	</select>
+	<select id="selectHashtag" resultType="String">
+		select hashtag from hashtags_tbl where webtoon_no=#{webtoonNo}
+	</select>
+	<select id="selectWriter" resultType="creator">
+		select c.member_no, m.member_id, m.member_nickname from creator_tbl c join member_tbl m on c.member_no=m.member_no where webtoon_no=#{webtoonNo} and c.creator_type=1
+	</select>
+	<select id="selectPainter" resultType="creator">
+		select c.member_no, m.member_id, m.member_nickname from creator_tbl c join member_tbl m on c.member_no=m.member_no where webtoon_no=#{webtoonNo} and c.creator_type=2
+	</select>
+	<update id="updateMyWork">
+		update webtoon_tbl set webtoon_title=#{webtoonTitle}, webtoon_thumbnail=#{webtoonThumbnail}, webtoon_intro=#{webtoonIntro}, webtoon_rating=#{webtoonRating}, webtoon_isinseries=#{webtoonIsinseries} where webtoon_no=#{webtoonNo}
+	</update>
+	<update id="updateCreator">
+		update creator_tbl set member_no=#{memberNo} where webtoon_no=#{webtoonNo} and creator_type=#{creatorType}
+	</update>
+	<select id="selectDaysCount" resultType="int">
+		select count(*) from SERIAL_DAYS_TBL where webtoon_no=#{webtoonNo}
+	</select>
+	<delete id="deleteDays">
+		delete from SERIAL_DAYS_TBL where webtoon_no=#{webtoonNo}
+	</delete>
+	<select id="selectGenresCount" resultType="int">
+		select count(*) from webtoon_genres_tbl where webtoon_no=#{webtoonNo}
+	</select>
+	<delete id="deleteGenres">
+		delete from webtoon_genres_tbl where webtoon_no=#{webtoonNo}
+	</delete>
+	<delete id="deleteTags">
+		delete from hashtags_tbl where webtoon_no=#{webtoonNo} and hashtag = #{hashtag}
+	</delete>
 </mapper>

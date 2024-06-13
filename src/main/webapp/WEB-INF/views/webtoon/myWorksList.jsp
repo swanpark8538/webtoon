@@ -35,7 +35,7 @@
 			</div>
 			<ul class="my_works_list">
 				<c:forEach var="w" items="${list }">
-					<li >
+					<li>
 						<div>
 							<img src = "/webtoon/${w.webtoonThumbnail}">	
 						</div>
@@ -65,6 +65,10 @@
 							        <c:when test="${w.webtoonRating == '4'}">18세 이용가</c:when>
 							        <c:otherwise>알 수 없음</c:otherwise>
 							    </c:choose>
+							</div>
+							<div>
+								<a href="/webtoon/editMyWork?webtoonNo=${w.webtoonNo}">작품 수정</a>
+								<a href="/webtoon/manageEpi?webtoonNo=${w.webtoonNo}">회차 관리</a>
 							</div>
 						</div>
 					</li>

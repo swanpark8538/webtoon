@@ -320,3 +320,26 @@
 	color: var(--main_01);
 	font-family: ns-b;
 }
+/*웹툰 수정*/
+.rest_end_checkbox{
+	 padding: 20px 0px 0px 2px;
+}
+.webtoon_delete_btn_box{
+	position: relative;
+}
+.webtoon_delete_btn{
+	padding: 5px 13px;
+	background: var(--gray_05);
+	color: white;
+	border-radius: 7px;
+	position: absolute;
+	right: 0px;
+	top:-35px;
+}
+#delModal button {
+	width: 70px;
+	margin: 0px 5px;
+}
+#delModal button:nth-child(2) {
+	background: var(--gray_05);
+}

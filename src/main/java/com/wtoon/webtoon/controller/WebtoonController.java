@@ -46,7 +46,7 @@ public class WebtoonController {
 		//내 작품 리스트 불러오기
 		//로그인 구현시 세션에서 멤버번호가져와서 변경 예정
 		int memberNo = -1;
-		System.out.println(memberNo);
+		//System.out.println(memberNo);
 		WorkPageData wpd = webtoonService.getMyWorksList(reqPage,memberNo,type);
 		model.addAttribute("list", wpd.getList());
 		model.addAttribute("pageNavi", wpd.getPageNavi());
@@ -90,8 +90,8 @@ public class WebtoonController {
 		}
 		int totalCount = 1+1+1+days.length+genres.length+tagCount;
 		
-		System.out.println(result);
-		System.out.println(totalCount);
+		//System.out.println(result);
+		//System.out.println(totalCount);
 		
 		if(result==totalCount) {
 			model.addAttribute("title", "작품 등록 완료");
@@ -125,13 +125,58 @@ public class WebtoonController {
 		return "common/msg";
 	}
 	
-	@PostMapping(value = "/update")
-	public String updateWebtoon(int webtoonNo, Model model) {
+	@GetMapping(value = "/editMyWork")
+	public String editMyWork(Model model, int webtoonNo) {
+		//작품정보 가져오기
+		Webtoon webtoon = webtoonService.getMyWork(webtoonNo);
+		List list = webtoonService.selectGenreList();	//장르목록
+		//System.out.println(webtoon);
+		model.addAttribute("list", list);
+		model.addAttribute("w", webtoon);
+		return "/webtoon/editMyWork";
+	}
+	
+	@PostMapping(value = "/edit")
+	public String edit(Model model, Webtoon webtoon, MultipartFile newImgFile, String oldImgFile,
+			int writer, int painter, String[] days, int[] genres, String[] tags, String[] delTags, String[] status) {
 		//전체 삭제 후 재등록 : 요일, 장르, 태그
 		//사진은 새 파일 있으면 변경 아니면 원래꺼로 설정 해준 뒤 웹툰정보, 작가들은 수정
-		
-		
-		
+		System.out.println(webtoon);
+		if(status!=null) {
+			if(status[0].equals("2")) {
+				System.out.println("휴재중");
+				webtoon.setWebtoonIsinseries("2");
+			}else if(status[0].equals("0")) {
+				System.out.println("완결");
+				webtoon.setWebtoonIsinseries("0");
+			}
+		}else {
+			webtoon.setWebtoonIsinseries("1");
+		}
+		if (newImgFile != null && !newImgFile.isEmpty()) {//파일이 있으면
+			String savepath = root+"/webtoon/";
+			fileUtils.deleteFile(savepath, oldImgFile);
+			String filepath = fileUtils.upload(savepath, newImgFile);
+			webtoon.setWebtoonThumbnail(filepath);
+		}else {	//없으면
+			webtoon.setWebtoonThumbnail(oldImgFile);
+		}
+		System.out.println(webtoon);
+		int result = webtoonService.edit(webtoon,writer,painter,days,genres,tags,delTags);
+		int totalCount = 3 + days.length + genres.length + (tags != null ? tags.length : 0) + (delTags != null ? delTags.length : 0);
+		System.out.println("결과: "+ result);
+		System.out.println("계산수: "+ totalCount);	
+		if(result==totalCount) {
+			model.addAttribute("title", "작품 수정 완료");
+			model.addAttribute("msg", "작품이 수정되었습니다.");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "/webtoon/myWorks?reqPage=1&type=1");
+		}else {
+			model.addAttribute("title", "작품 수정 실패");
+			model.addAttribute("msg", "다시 시도해주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/webtoon/myWorks?reqPage=1&type=1");
+		}
 		return "common/msg";
 	}
 

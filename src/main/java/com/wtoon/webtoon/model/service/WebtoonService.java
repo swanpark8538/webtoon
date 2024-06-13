@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wtoon.webtoon.model.dao.WebtoonDao;
-import com.wtoon.webtoon.model.dto.WorkPageData;
+import com.wtoon.webtoon.model.dto.Creator;
 import com.wtoon.webtoon.model.dto.Webtoon;
+import com.wtoon.webtoon.model.dto.WorkPageData;
 
 @Service
 public class WebtoonService {
@@ -73,7 +74,7 @@ public class WebtoonService {
 			for(String tag: tags) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("webtoonNo", webtoonNo);
-				map.put("hashTag", tag);
+				map.put("hashtag", tag);
 				result+=webtoonDao.insertTag(map);
 			}
 		}
@@ -94,7 +95,7 @@ public class WebtoonService {
 		map.put("memberNo", memberNo);
 		map.put("type",type);
 		List list = webtoonDao.getMyWorksList(map);
-		System.out.println(list);
+		//System.out.println(list);
 		int totalCount = webtoonDao.totalMyWorksCount(memberNo);
 		int totalPage = totalCount%numPerPage == 0 ? totalCount/numPerPage : totalCount/numPerPage + 1;		
 		int pageNaviSize = 5;
@@ -119,6 +120,68 @@ public class WebtoonService {
 		}
 		WorkPageData wpd = new WorkPageData(list,pageNavi,totalCount);
 		return wpd;
+	}
+
+	public Webtoon getMyWork(int webtoonNo) {
+		return webtoonDao.getMyWork(webtoonNo);
+	}
+
+	public int edit(Webtoon webtoon, int writer, int painter, String[] days, int[] genres, String[] tags,
+			String[] delTags) {
+		//웹툰 -> 변경
+		int result = webtoonDao.updateMyWork(webtoon);
+		if(result>0) {
+			int webtoonNo = webtoon.getWebtoonNo();
+			//글 작가, 그림 작가 변경
+			Creator w = new Creator(writer, webtoonNo, null, null, "1");
+			Creator p = new Creator(painter, webtoonNo, null, null, "2");		
+			result += webtoonDao.updateCreator(w);
+			result += webtoonDao.updateCreator(p);
+			//연재요일 => 전체 삭제 후 새로 추가
+			int beforeDaysCount = webtoonDao.selectDaysCount(webtoonNo);
+			int delDaysCount = webtoonDao.deleteDays(webtoonNo);
+			result += delDaysCount;
+			if(beforeDaysCount == delDaysCount) { 	//삭제 전 갯수 확인 수 결과에서 빼줌
+				result -= beforeDaysCount;			
+			}
+			for(String day : days) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("webtoonNo", webtoonNo);
+				map.put("serialDay", day);
+				result+=webtoonDao.insertDay(map);
+			}
+			//장르 => 전체 삭제 후 새로 추가
+			int beforeGenresCount = webtoonDao.selectGenresCount(webtoonNo);
+			int delGenresCount = webtoonDao.deleteGenres(webtoonNo);
+			result += delGenresCount;
+			if(beforeGenresCount==delGenresCount) {
+				result -= delGenresCount;
+			}
+			for(int genre : genres) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("webtoonNo", webtoonNo);
+				map.put("genreNo", genre);
+				result+=webtoonDao.insertGenre(map);
+			}		
+			//태그 => delTags 삭제, tags 추가
+			if(delTags!=null) {
+				for(String delTag : delTags) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("webtoonNo", webtoonNo);
+					map.put("hashtag", delTag);
+					result += webtoonDao.deleteTags(map);					
+				}		
+			}
+			if(tags!=null) {
+				for(String tag: tags) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("webtoonNo", webtoonNo);
+					map.put("hashtag", tag);
+					result+=webtoonDao.insertTag(map);
+				}
+			}
+		}
+		return result;
 	}
 	
 	
