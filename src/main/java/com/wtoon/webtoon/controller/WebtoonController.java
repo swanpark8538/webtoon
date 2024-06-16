@@ -1,5 +1,6 @@
 package com.wtoon.webtoon.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wtoon.webtoon.util.FileUtils;
 import com.wtoon.webtoon.model.dto.WorkPageData;
+import com.wtoon.webtoon.model.dto.EpiPageData;
 import com.wtoon.webtoon.model.dto.Webtoon;
 import com.wtoon.webtoon.model.service.WebtoonService;
 
@@ -176,5 +178,21 @@ public class WebtoonController {
 		}
 		return "common/msg";
 	}
-
+	
+	@GetMapping(value = "/manageEpi")
+	public String manageEpi(int webtoonNo,Model model){
+		//웹툰 정보 + 회차 리스트 + 페이징
+		//EpiPageData epd = webtoonService.selectEpiList(webtoonNo);
+		model.addAttribute("webtoonNo", webtoonNo);		//수정예정
+		return "/webtoon/manageEpi";
+	}
+	
+	@GetMapping(value = "/regEpisode")
+	public String regEpisode(int webtoonNo,Model model){
+		//웹툰명,회차번호 가져오기
+		HashMap<String, Object> map = webtoonService.selectEpiNo(webtoonNo);
+		model.addAttribute("epiNo",map.get("epiNo"));
+		model.addAttribute("webtoonTitle",map.get("webtoonTitle"));
+		return "/webtoon/regEpisode";
+	}
 }

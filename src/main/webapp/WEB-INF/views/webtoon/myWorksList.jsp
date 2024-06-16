@@ -66,9 +66,12 @@
 							        <c:otherwise>알 수 없음</c:otherwise>
 							    </c:choose>
 							</div>
-							<div>
-								<a href="/webtoon/editMyWork?webtoonNo=${w.webtoonNo}">작품 수정</a>
-								<a href="/webtoon/manageEpi?webtoonNo=${w.webtoonNo}">회차 관리</a>
+							<div class="webtoon_manage_box">
+								<a href="/webtoon/editMyWork?webtoonNo=${w.webtoonNo}" class="webtoon_update_box">
+									<span>작품 정보 수정</span>
+									<span class="material-icons">chevron_right</span>
+								</a>
+								<a href="/webtoon/manageEpi?webtoonNo=${w.webtoonNo}" class="webtoon_manage_epi">회차관리</a>
 							</div>
 						</div>
 					</li>

@@ -183,4 +183,10 @@
 	<delete id="deleteTags">
 		delete from hashtags_tbl where webtoon_no=#{webtoonNo} and hashtag = #{hashtag}
 	</delete>
+	<select id="selectEpiNo" resultType="int">
+		select count(*) from episode_tbl where webtoon_no = #{webtoonNo}
+	</select>
+	<select id="selectWebtoonTitle" resultType="String">
+		select webtoon_title from webtoon_tbl where webtoon_no=#{webtoonNo}
+	</select>
 </mapper>

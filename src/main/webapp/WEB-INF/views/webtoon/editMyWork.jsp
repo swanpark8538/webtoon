@@ -158,6 +158,7 @@
 			</div>
 			<div class="reg-btn-wrap">
 				<button>작품 수정하기</button>
+				<div class="back">취소</div>
 			</div>
 		</form>
     <div class="modal" id="modal">
@@ -185,6 +186,9 @@
 	
 	
 	<script type="text/javascript">
+		document.querySelector(".back").addEventListener("click",function(){
+			history.back();
+		})
 		//삭제 모달
 		function openDelModal(){
 			document.querySelector('#delModal').style.display = 'block';

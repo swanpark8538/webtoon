@@ -2,6 +2,7 @@ package com.wtoon.webtoon.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,7 +87,7 @@ public class WebtoonService {
 	}
 
 	public WorkPageData getMyWorksList(int reqPage, int memberNo, int type) {
-		int numPerPage = 4;//테스트용 값
+		int numPerPage = 10;//테스트용 값
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -183,6 +184,17 @@ public class WebtoonService {
 		}
 		return result;
 	}
+
+
+	public HashMap<String, Object> selectEpiNo(int webtoonNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int epiNo = webtoonDao.selectEpiNo(webtoonNo)+1;
+		map.put("epiNo", epiNo);
+		String webtoonTitle = webtoonDao.selectWebtoonTitle(webtoonNo);
+		map.put("webtoonTitle",webtoonTitle);
+		return map;
+	}
+
 	
 	
 }

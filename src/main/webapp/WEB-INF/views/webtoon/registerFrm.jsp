@@ -132,6 +132,7 @@
 			</div>
 			<div class="reg-btn-wrap">
 				<button>작품 저장하기</button>
+				<div class="back">취소</div>
 			</div>
 		</form>
     <div class="modal" id="modal">
@@ -148,6 +149,9 @@
 	
 	
 	<script type="text/javascript">
+		document.querySelector(".back").addEventListener("click",function(){
+			history.back();
+		})
 		//썸네일 띄우기
 		function loadImg(obj) {
 	      //console.log(obj.files);

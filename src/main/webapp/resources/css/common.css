@@ -66,7 +66,7 @@ h5{margin-bottom: 8px; color: var(--gray_01); font-family: ns-b; font-size: 14px
 #footer .footer_copy{margin-top: 32px; color: #fff; font-size: 13px; line-height: 20px;}
 
 /* input */
-input:not([type=checkbox],[type=radio]){display: block; width: 100%; padding: 8px 0; font-size: 16px; line-height: 1.5;}
+input:not([type=checkbox],[type=radio],[type=file]){display: block; width: 100%; padding: 8px 0; font-size: 16px; line-height: 1.5;}
 select{background: transparent;}
 input:not([type=checkbox],[type=radio]):-internal-autofill-selected {background-color: #fff!important;}
 .input_area .input_wrap+.input_wrap{margin-top: 24px;}

@@ -96,6 +96,14 @@ public class WebtoonDao {
 		return session.delete("webtoon.deleteTags", map);
 	}
 
+	public int selectEpiNo(int webtoonNo) {
+		return session.selectOne("webtoon.selectEpiNo",webtoonNo);
+	}
+
+	public String selectWebtoonTitle(int webtoonNo) {
+		return session.selectOne("webtoon.selectWebtoonTitle",webtoonNo);
+	}
+
 
 
 	
