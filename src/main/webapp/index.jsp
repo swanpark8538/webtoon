@@ -25,9 +25,10 @@
 					<button type="button" class="tab_btn" value="new">신작</button>
 					<button type="button" class="tab_btn" value="finish">완결</button>
 				</div>
+				
 				<div class="tab_contents">
 					<div class="recommend_area">
-						<h3>추천 웹툰</h3>
+						<!-- <h3>추천 웹툰</h3>
 						<ul class="recommend_list">
 							<li>
 								<a href="#" class="list_item">
@@ -101,30 +102,36 @@
 				                  	</div>
 				                </a>
 							</li>
-						</ul>
+						</ul> -->
 					</div>
 					
 					<div class="tab_content">
-						<h3>제목</h3>
-            <div class="sort_btns">
-              <button type="button" class="sort_btn" value="popularity">인기순</button>
-              <button type="button" class="sort_btn" value="update">업데이트순</button>
-              <button type="button" class="sort_btn" value="view">조회순</button>
-              <button type="button" class="sort_btn" value="rating">별점순</button>
-            </div>
-
-            <div class="genre_btns">
-              <button type="button" class="genre_btn" value="1">로맨스</button>
-              <button type="button" class="genre_btn" value="2">판타지</button>
-              <button type="button" class="genre_btn" value="3">액션</button>
-              <button type="button" class="genre_btn" value="4">일상</button>
-              <button type="button" class="genre_btn" value="5">스릴러</button>
-              <button type="button" class="genre_btn" value="6">개그</button>
-              <button type="button" class="genre_btn" value="7">무협/사극</button>
-              <button type="button" class="genre_btn" value="8">드라마</button>
-              <button type="button" class="genre_btn" value="9">감성</button>
-              <button type="button" class="genre_btn" value="10">스포츠</button>
-            </div>
+						<div class="genre_btns">
+							<button type="button" class="genre_btn" value="1">#로맨스</button>
+							<button type="button" class="genre_btn" value="2">#판타지</button>
+							<button type="button" class="genre_btn" value="3">#액션</button>
+							<button type="button" class="genre_btn" value="4">#일상</button>
+							<button type="button" class="genre_btn" value="5">#스릴러</button>
+							<button type="button" class="genre_btn" value="6">#개그</button>
+							<button type="button" class="genre_btn" value="7">#무협/사극</button>
+							<button type="button" class="genre_btn" value="8">#드라마</button>
+							<button type="button" class="genre_btn" value="9">#감성</button>
+							<button type="button" class="genre_btn" value="10">#스포츠</button>
+			            </div>
+					
+						<div class="title_area">
+							<h3>제목</h3>
+				            <div class="sort_btns">
+								<button type="button" class="sort_btn" value="popularity">인기순</button>
+								<button type="button" class="sort_btn" value="update">업데이트순</button>
+								<button type="button" class="sort_btn" value="view">조회순</button>
+								<button type="button" class="sort_btn" value="rating">별점순</button>
+				            </div>						
+						</div>
+			            
+						<div id="comicsList_area">
+						
+						</div>
 					</div>
 				</div>
 			</div>

@@ -6,6 +6,11 @@
 		<if test="tab.equals('all')">
 			, s.serial_day
 		</if>
+		<if test="!tab.equals('all')">
+			, (select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=w.webtoon_no and creator_type=1)) writerStr,
+			(select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=w.webtoon_no and creator_type=2)) painterStr,
+			(select nvl(avg(rating),0) from rating_tbl where webtoon_no=w.webtoon_no) avgRating
+		</if>
 		from webtoon_tbl w
 		<choose>
 			<!-- 전체 요일 -->

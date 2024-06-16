@@ -31,6 +31,9 @@ public class Webtoon {
 	
 	private Creator creator1;
 	private Creator creator2;
+	private String writerStr;
+	private String painterStr;
+	
 	private List<String> hashtag;
 	private List<String> day; //연재요일
 	private List<String> genre;
