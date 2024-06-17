@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.wtoon.webtoon.model.dto.Creator;
+import com.wtoon.webtoon.model.dto.Episode;
+import com.wtoon.webtoon.model.dto.EpisodeFile;
 import com.wtoon.webtoon.model.dto.Webtoon;
 
 @Repository
@@ -102,6 +104,14 @@ public class WebtoonDao {
 
 	public String selectWebtoonTitle(int webtoonNo) {
 		return session.selectOne("webtoon.selectWebtoonTitle",webtoonNo);
+	}
+
+	public int insertEpi(Episode epi) {
+		return session.insert("webtoon.insertEpi", epi);
+	}
+
+	public int insertEpiFile(EpisodeFile file) {
+		return session.insert("webtoon.insertEpiFile", file);
 	}
 
 

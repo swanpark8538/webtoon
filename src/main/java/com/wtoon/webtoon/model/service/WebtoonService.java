@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wtoon.webtoon.model.dao.WebtoonDao;
 import com.wtoon.webtoon.model.dto.Creator;
+import com.wtoon.webtoon.model.dto.Episode;
+import com.wtoon.webtoon.model.dto.EpisodeFile;
 import com.wtoon.webtoon.model.dto.Webtoon;
 import com.wtoon.webtoon.model.dto.WorkPageData;
 
@@ -81,7 +83,8 @@ public class WebtoonService {
 		}
 		return result;
 	}
-
+	
+	@Transactional
 	public int deleteWebtoon(int webtoonNo) {
 		return webtoonDao.deleteWebtoon(webtoonNo);
 	}
@@ -126,7 +129,8 @@ public class WebtoonService {
 	public Webtoon getMyWork(int webtoonNo) {
 		return webtoonDao.getMyWork(webtoonNo);
 	}
-
+	
+	@Transactional
 	public int edit(Webtoon webtoon, int writer, int painter, String[] days, int[] genres, String[] tags,
 			String[] delTags) {
 		//웹툰 -> 변경
@@ -193,6 +197,18 @@ public class WebtoonService {
 		String webtoonTitle = webtoonDao.selectWebtoonTitle(webtoonNo);
 		map.put("webtoonTitle",webtoonTitle);
 		return map;
+	}
+	
+	@Transactional
+	public int insertEpi(Episode epi) {
+		int result = webtoonDao.insertEpi(epi);
+		if(result>0) {
+			for(EpisodeFile file:epi.getEpisodeFile()) {
+				file.setEpiNo(epi.getEpiNo());
+				result += webtoonDao.insertEpiFile(file);
+			}
+		}
+		return result;
 	}
 
 	

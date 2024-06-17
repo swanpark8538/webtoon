@@ -27,7 +27,8 @@
 						<tbody>
 							<tr>
 								<td>회차명</td>
-								<td><input type="text" disabled value="${webtoonTitle }"></td>
+								<td><input type="text" disabled value="${webtoonTitle }">
+								<input type="hidden" value="${webtoonNo }" name="webtoonNo" id="webtoonNo"> </td>
 							</tr>
 							<tr>
 								<td>회차 번호</td>
@@ -91,7 +92,7 @@
 									 -->
 									 <div class="epiOpenDate_box">
 										<input type="datetime-local" 
-										  id="epiOpenDate">
+										  id="epiOpenDate" name="epiOpenDate">
 										<div class="writer-sub-message">* 지정된 시간에 맞춰 회차가 공개됩니다.</div>
 									 </div>
 								</td>
@@ -128,6 +129,7 @@
 	<script src="/resources/js/jquery-ui-1.13.3/jquery-ui.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>	
 	 -->
+	<script src="/resources/js/sweetalert.min.js"></script>
 	<script type="text/javascript">
 		//취소버튼
 		$('.back').on('click', function() {
@@ -307,7 +309,7 @@
 		const modalTitle = document.querySelector(".modal_title");      	
         modalTitle.innerText = data
 	    openModal();
-        event.preventDefault(); // 폼 제출 막기
+        //event.preventDefault(); // 폼 제출 막기, 현재 페이지에선 ajax씀으로 막음
       }
 	  //폼제출 조건
 		document.querySelector('.reg-webtoon-form').addEventListener('submit', function(event) {
@@ -318,6 +320,7 @@
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append('epiFiles', selectedFiles[i]);
             }
+		      
             const epiOpenDate = new Date($('#epiOpenDate').val());
 			if($("#epiTitle").val().trim() === ""){
 	        	noneInputFunc(event,"회차명 입력해주세요.");
@@ -325,10 +328,40 @@
 				noneInputFunc(event,"회차 썸네일을 등록해주세요")
 			}else if (selectedFiles.length == 0 || selectedFiles[0] == 0){
                 noneInputFunc(event, "원고를 등록해주세요.");
-			}else if($('input[name="epiOpen"]:checked').val() === "2"){
-				if(epiOpenDate<=now){
-					noneInputFunc(event, "공개예약 시간을 확인해주세요.");
-				}
+			}else if(($('input[name="epiOpen"]:checked').val() === "2") && (epiOpenDate<=now)){
+				noneInputFunc(event, "공개예약 시간을 확인해주세요.");
+			}else{
+				//원고 때문에 비동기 처리해야함
+				$.ajax({
+					url : "/webtoon/regEpisode",
+					type : "post",
+					data : formData,
+					processData  : false,	//enctype
+					contentType : false,
+					success : function(data){
+						console.log(data);
+						if (data==1) {
+							swal({
+								title : '회차 등록 성공',
+								text : '회차가 등록되었습니다.',
+								icon : 'success'
+							}).then(function(){
+								location.href = "/webtoon/manageEpi?webtoonNo=" + $("#webtoonNo").val();
+							});
+						}else{
+							swal({
+								title : '회차 등록 실패',
+								text : '잠시 후 시도해주세요.',
+								icon : 'error'
+							}).then(function(){
+								location.href = "/webtoon/manageEpi?webtoonNo=" + $("#webtoonNo").val();
+							});
+						}
+					},
+					error : function(){
+						console.log("에러");					
+					}
+				});
 			}
 		});
 	    

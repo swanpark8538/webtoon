@@ -11,7 +11,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="webtoon-content">	
 		<h2>회차 관리</h2>
-		<a href="/webtoon/regEpisode?webtoonNo=${webtoonNo }">신규 회차 등록</a>
+		<a href="/webtoon/newEpisode?webtoonNo=${webtoonNo }">신규 회차 등록</a>
 		
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>	

@@ -194,4 +194,22 @@
 	<select id="selectWebtoonTitle" resultType="String">
 		select webtoon_title from webtoon_tbl where webtoon_no=#{webtoonNo}
 	</select>
+	<insert id="insertEpi">
+		INSERT INTO episode_tbl VALUES (episode_seq.nextval, #{webtoonNo}, #{epiTitle}, #{epiThumbnail}, #{epiMessage}, sysdate, 
+		 <choose>
+            <when test="epiOpenDate.equals('')">
+                sysdate
+            </when>
+            <otherwise>
+                TO_TIMESTAMP(#{epiOpenDate}, 'YYYY-MM-DD"T"HH24:MI')
+            </otherwise>
+        </choose>
+		, 0, '1')
+		<selectKey order="AFTER" resultType="int" keyProperty="epiNo">
+			select max(epi_no) from episode_tbl
+		</selectKey>
+	</insert>
+	<insert id="insertEpiFile">
+		insert into EPISODE_FILE_TBL values(EPISODE_FILE_SEQ.nextval,#{epiNo},#{fileName},#{filePath})
+	</insert>
 </mapper>

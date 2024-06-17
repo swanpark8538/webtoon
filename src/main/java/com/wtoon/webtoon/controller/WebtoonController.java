@@ -1,5 +1,6 @@
 package com.wtoon.webtoon.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wtoon.webtoon.util.FileUtils;
 import com.wtoon.webtoon.model.dto.WorkPageData;
 import com.wtoon.webtoon.model.dto.EpiPageData;
+import com.wtoon.webtoon.model.dto.Episode;
+import com.wtoon.webtoon.model.dto.EpisodeFile;
 import com.wtoon.webtoon.model.dto.Webtoon;
 import com.wtoon.webtoon.model.service.WebtoonService;
 
@@ -190,12 +193,60 @@ public class WebtoonController {
 		return "/webtoon/manageEpi";
 	}
 	
-	@GetMapping(value = "/regEpisode")
-	public String regEpisode(int webtoonNo,Model model){
+	@GetMapping(value = "/newEpisode")
+	public String newEpisode(int webtoonNo, Model model){
 		//웹툰명,회차번호 가져오기
 		HashMap<String, Object> map = webtoonService.selectEpiNo(webtoonNo);
+		model.addAttribute("webtoonNo",webtoonNo);
 		model.addAttribute("epiNo",map.get("epiNo"));
 		model.addAttribute("webtoonTitle",map.get("webtoonTitle"));
 		return "/webtoon/regEpisode";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/regEpisode",produces="plain/text;charset=utf-8")
+	public String regEpisode( 
+			MultipartFile imgFile, MultipartFile[] epiFiles,
+			int epiOpen, Episode epi) {
+		System.out.println(epiOpen);
+		if(epiOpen==1) {
+			epi.setEpiOpenDate("");
+		}
+		System.out.println(epi);		
+		//썸네일
+		String savepath = root+"/webtoon/episode/";
+		String filepath = fileUtils.upload(savepath, imgFile);
+		epi.setEpiThumbnail(filepath);
+		
+		//원고파일
+		ArrayList<EpisodeFile> episodeFileList = new ArrayList<EpisodeFile>();
+		if(epiFiles != null && epiFiles.length > 0 && !epiFiles[0].isEmpty()) {
+			String epiSavepath = root+"/webtoon/episode/";
+			for(MultipartFile file:epiFiles) {
+				String epiFilename = file.getOriginalFilename();
+				String epiFilepath = fileUtils.upload(epiSavepath, file);
+				EpisodeFile episodeFile = new EpisodeFile();
+				episodeFile.setFileName(epiFilename);
+				episodeFile.setFilePath(epiFilepath);
+				episodeFileList.add(episodeFile);
+				//System.out.println(epiFilepath);
+			}
+		}
+		epi.setEpisodeFile(episodeFileList);
+		int result = webtoonService.insertEpi(epi);
+		if(result == 1 + episodeFileList.size()) {
+			return "1";	//성공
+		}else {
+			return "0";	//실패
+		}
+		
+		/*
+		System.out.println("컨트롤러부분");
+		System.out.println(imgFile);
+		System.out.println(epi);
+		System.out.println(epiFiles);
+		
+		//System.out.println(openDate);
+		*/
 	}
 }
