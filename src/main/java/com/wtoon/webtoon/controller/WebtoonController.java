@@ -249,4 +249,9 @@ public class WebtoonController {
 		//System.out.println(openDate);
 		*/
 	}
+	
+	@GetMapping(value = "comicsDetail")
+	public String comicsDetail(int webtoonNo, Model model) {
+		return "/webtoon/comicsDetail";
+	}
 }
