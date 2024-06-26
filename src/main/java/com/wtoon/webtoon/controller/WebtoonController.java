@@ -254,6 +254,7 @@ public class WebtoonController {
 	@GetMapping(value="/episode")
 	public String episodeDetail(int webtoonNo, int reqNo, Model model) {
 		Episode episode = webtoonService.selectEpisodeDetail(webtoonNo, reqNo);
+		System.out.println(episode);
 		int commentCount = webtoonService.selectCommentCount(episode.getEpiNo());
 		model.addAttribute("episode", episode);
 		model.addAttribute("commentCount", commentCount);

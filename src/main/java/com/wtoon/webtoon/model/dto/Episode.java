@@ -22,6 +22,8 @@ public class Episode {
 	private int realEpiNo;
 	private int firstEpiNo;
 	private int newestEpiNo;
+	private String writerStr;
+	private String painterStr;
 	private List<EpisodeFile> episodeFile;
 	private List<Comment> commentList;
 	

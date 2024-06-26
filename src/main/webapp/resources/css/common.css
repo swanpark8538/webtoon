@@ -1,32 +1,5 @@
 @charset "UTF-8";
 
-/* color */
-:root{
-  /* main color */
-  --main_01: #00B7F1;
-  --main_02: #E9511C;
-  --main_03: #F4F5EF;
-  --main_04: #000000;
-
-  /* gray color */
-  --gray_01: #222222;
-  --gray_02: #555555;
-  --gray_03: #717171;
-  --gray_04: #8F8F8F;
-  --gray_05: #B7B7B7;
-
-  /* line color */
-  --line_01: #222222;
-  --line_02: #D6D6D6;
-  --line_03: #EAECED;
-
-  /* status color */
-  --success: #30E462;
-  --error: #FF2803;
-  --warning: #F9B71B;
-  --info: #1795F0;
-}
-
 /* layout */
 html{font-family: ns-r;}
 .hidden{position: absolute; left: -9999%; font-size: 0; line-height: 0; text-indent: -9999%; overflow: hidden;}
@@ -35,10 +8,10 @@ html{font-family: ns-r;}
 .wrap{display: flex; flex-direction: column; min-height: 100vh;}
 .container{flex: 1; padding: 0 40px;}
 .contents{/* width: 100% */ max-width: 1360px; margin: 0 auto; padding: 60px 40px;}
-h2{margin-bottom: 48px; color: var(--gray_01); font-family: ns-b; font-size: 24px; text-align: center; line-height: 1.5;}
-h3{margin-bottom: 24px; color: var(--gray_01); font-family: ns-b; font-size: 20px; line-height: 1.5;}
-h4{margin-bottom: 20px; color: var(--gray_01); font-family: ns-b; font-size: 16px; line-height: 1.5;}
-h5{margin-bottom: 8px; color: var(--gray_01); font-family: ns-b; font-size: 14px; line-height: 1.5;}
+h2{margin-bottom: 48px; color: var(--gray_01); font-family: ns-b; font-size: 24px; font-weight: normal; text-align: center; line-height: 1.5;}
+h3{margin-bottom: 24px; color: var(--gray_01); font-family: ns-b; font-size: 20px; font-weight: normal; line-height: 1.5;}
+h4{margin-bottom: 20px; color: var(--gray_01); font-family: ns-b; font-size: 16px; font-weight: normal; line-height: 1.5;}
+h5{margin-bottom: 8px; color: var(--gray_01); font-family: ns-b; font-size: 14px; font-weight: normal; line-height: 1.5;}
 
 /* header */
 #header{position: sticky; top: 0; border-bottom: 1px solid var(--line_03); background-color: #fff; z-index: 1000; transition: all 0.2s;}
@@ -55,7 +28,7 @@ h5{margin-bottom: 8px; color: var(--gray_01); font-family: ns-b; font-size: 14px
 #header .user_menu_area .mypage{display: block; padding: 10px 12px 10px 24px; background: url(/resources/img/icon_account.svg) no-repeat left center / 20px 20px;}
 
 /* footer */
-#footer{background-color: var(--main_01); z-index: 1001;}
+#footer{margin-top: 100px; background-color: var(--main_01); z-index: 1001;}
 #footer>.footer_inner{/* width: 100% */ max-width: 1360px; margin: 0 auto; padding: 28px 40px 48px;}
 #footer .logo>a{background: url(/resources/img/logo_white.svg) no-repeat center / contain;}
 #footer .footer_menu_list{display: flex; gap: 24px; padding: 12px 0;}

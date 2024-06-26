@@ -7,8 +7,8 @@
 			, s.serial_day
 		</if>
 		<if test="!tab.equals('all')">
-			, (select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=w.webtoon_no and creator_type=1)) writerStr,
-			(select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=w.webtoon_no and creator_type=2)) painterStr,
+			, (select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=w.webtoon_no and creator_type=1)) writer_str,
+			(select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=w.webtoon_no and creator_type=2)) painter_str,
 			(select nvl(avg(rating),0) from rating_tbl where webtoon_no=w.webtoon_no) avgRating
 		</if>
 		from webtoon_tbl w
@@ -219,7 +219,9 @@
 		        (select 
 		            (select min(epi_no) from episode_tbl where webtoon_no=#{webtoonNo}) first_epi_no,
 		            (select max(epi_no) from episode_tbl where webtoon_no=#{webtoonNo}) newest_epi_no,
-		        epi_no, webtoon_no, epi_title, epi_thumbnail, epi_message, epi_open_date, epi_isfree from episode_tbl where webtoon_no=#{webtoonNo} order by epi_no)e
+		            (select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=e.webtoon_no and creator_type=1)) writer_str,
+			(select member_nickname from member_tbl where member_no=(select member_no from creator_tbl where webtoon_no=e.webtoon_no and creator_type=2)) painter_str,
+		        epi_no, webtoon_no, epi_title, epi_thumbnail, epi_message, epi_open_date, epi_isfree from episode_tbl e where webtoon_no=#{webtoonNo} order by epi_no)e
 		    )
 		where real_epi_no=#{reqNo}
 	</select>
@@ -236,6 +238,8 @@
 		<result column="epi_isfree" property="epiIsfree"/>
 		<result column="first_epi_no" property="firstEpiNo"/>
 		<result column="newest_epi_no" property="newestEpiNo"/>
+		<result column="writer_str" property="writerStr"/>
+		<result column="painter_str" property="painterStr"/>
 		<collection property="episodeFile" select="selectEpisodeFileList" column="epi_no" javaType="java.util.List" ofType="episodeFile"/>
 	</resultMap>
 	<select id="selectCommentCount" resultType="int">

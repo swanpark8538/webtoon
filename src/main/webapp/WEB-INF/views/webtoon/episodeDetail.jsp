@@ -57,10 +57,20 @@
                     <div class="message_area">
                         <div class="title_wrap">
                             <strong class="title">작가의 말</strong>
-                            <span class="creator">누구 글 / 누구 그림</span>
+                            <span class="creator">
+	                            <a href="#">${episode.writerStr}</a><em>&middot; 글</em>
+                            	<c:choose>
+                            		<c:when test="${episode.writerStr eq episode.painterStr}">
+										<em>/그림</em>
+	                            	</c:when>
+	                            	<c:when test="${episode.writerStr ne episode.painterStr}">
+										<a href="#">${episode.painterStr}</a><em>&middot; 그림</em>
+	                            	</c:when>
+                            	</c:choose>
+							</span>
                         </div>
                         <div class="message_wrap">
-                            작가의 말 내용
+							<c:out value="${episode.epiMessage}"></c:out>
                         </div>
                     </div>
 
@@ -77,7 +87,7 @@
 
                         <div class="comments_wrap">
                             <div class="sort_btns">
-                                <button type="button" class="sort_btn" value="popularity">BEST 댓글</button>
+                                <button type="button" class="sort_btn active" value="popularity">BEST 댓글</button>
                                 <button type="button" class="sort_btn" value="update">전체 댓글</button>
                             </div>
 
