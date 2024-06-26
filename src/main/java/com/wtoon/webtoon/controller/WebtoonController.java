@@ -257,6 +257,12 @@ public class WebtoonController {
 		*/
 	}
 	
+
+	@GetMapping(value = "comicsDetail")
+	public String comicsDetail(int webtoonNo, Model model) {
+		return "/webtoon/comicsDetail";
+	}
+
 	//회차별 상세 페이지
 	@GetMapping(value="/episode")
 	public String episodeDetail(String tab, int webtoonNo, int reqNo, @SessionAttribute(name="member", required=false) Member sessionMember, Model model) {
@@ -289,4 +295,5 @@ public class WebtoonController {
 		webtoonService.insertRecentView(memberNo, webtoonNo, epiNo, viewPercent);
 	}
 	
+
 }

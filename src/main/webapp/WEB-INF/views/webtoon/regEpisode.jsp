@@ -55,7 +55,7 @@
             									<div id="deleteButton">삭제</div>
 												<input type="file" id="work" accept=".jpg, .jpeg, .gif, .png" class="blind" multiple onchange="workImg(this);">
 												<input type="file" id="editWork" accept=".jpg, .jpeg, .gif, .png" class="blind" onchange="editWorkImg(this);">										
-												<div><label for="work">원고 업로드</label></div>
+												<div id="upload">원고 업로드</div>
 											</div>						
 										</div>
 										<div class="episode_file_box">
@@ -138,6 +138,10 @@
 		
 		//원고 등록 관련
 		let selectedFiles = []; // 선택된 파일들을 저장할 배열
+		//원고 업로드
+		$('#upload').on('click',function(){
+        	$('#work').click();
+        });
 		// 파일 목록 표시
 		function workImg(obj) {
 		    const files = obj.files;
@@ -182,7 +186,8 @@
                 alert('삭제할 파일을 선택하세요.');
             }
 		});
-        
+
+		
         // 파일 수정
         $('#editButton').on('click', function() {
             const activeFile = $('.epi_file_name.file_active');
@@ -313,7 +318,8 @@
       }
 	  //폼제출 조건
 		document.querySelector('.reg-webtoon-form').addEventListener('submit', function(event) {
-			event.preventDefault();	//마지막에 지우기, 확인용으로 제출 막아놈sss
+			//ajax 사용
+			event.preventDefault();	
 			//원고 목록 폼에 포함시킴
 			const form = this;
             const formData = new FormData(form);           

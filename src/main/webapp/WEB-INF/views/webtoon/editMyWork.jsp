@@ -452,11 +452,11 @@
 			                    div.className = "search-item";       
 		                        var member = data[i];
 		                        div.addEventListener('click', function() {
-		                        	writerInput.value=  data[i].memberNickName +"("+ data[i].memberId+")";
+		                        	writerInput.value=  data[i].memberNickname +"("+ data[i].memberId+")";
 		                        	writerInput.previousElementSibling.value=data[i].memberNo;
 		                        	list.remove();
 			          	        });	
-		                        div.textContent = data[i].memberNickName +"("+ data[i].memberId+")";
+		                        div.textContent = data[i].memberNickname +"("+ data[i].memberId+")";
 		                        list.appendChild(div);
 		                    }
 		                }else{
@@ -493,11 +493,11 @@
 		                    	const div = document.createElement('div');
 			                    div.className = "search-item";                 
 			                    div.addEventListener('click', function() {
-			                    	painterInput.value= data[i].memberNickName +"("+ data[i].memberId+")";
+			                    	painterInput.value= data[i].memberNickname +"("+ data[i].memberId+")";
 			                    	painterInput.previousElementSibling.value=data[i].memberNo;
 		                        	list.remove();
 			          	        });	
-		                        div.textContent = data[i].memberNickName +"("+ data[i].memberId+")";
+		                        div.textContent = data[i].memberNickname +"("+ data[i].memberId+")";
 		                        list.appendChild(div);
 		                    }
 		                }else{
