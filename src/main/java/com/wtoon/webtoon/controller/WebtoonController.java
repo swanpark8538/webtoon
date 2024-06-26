@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wtoon.webtoon.util.FileUtils;
 import com.wtoon.webtoon.model.dto.WorkPageData;
@@ -39,8 +40,14 @@ public class WebtoonController {
 	private FileUtils fileUtils;
 
 	//메인 웹툰 리스트 불러오기
-	@ResponseBody
 	@GetMapping()
+	public String tab(String tab, Model model) {
+		model.addAttribute("tab", tab);
+		return "webtoon/webtoonList";
+	}
+	
+	@ResponseBody
+	@GetMapping(value="/list")
 	public List list(String tab, String sort, String genre, Model model) {
 		List list = webtoonService.selectWebtoonList(tab, sort, genre);
 		return list;
@@ -252,10 +259,14 @@ public class WebtoonController {
 	
 	//회차별 상세 페이지
 	@GetMapping(value="/episode")
-	public String episodeDetail(int webtoonNo, int reqNo, Model model) {
+	public String episodeDetail(String tab, int webtoonNo, int reqNo, @SessionAttribute(name="member", required=false) Member sessionMember, Model model) {
+		//로그인 구현시 세션에서 멤버 가져와서 변경 예정
+		String memberId = "haeun";
 		Episode episode = webtoonService.selectEpisodeDetail(webtoonNo, reqNo);
 		System.out.println(episode);
 		int commentCount = webtoonService.selectCommentCount(episode.getEpiNo());
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("tab", tab);
 		model.addAttribute("episode", episode);
 		model.addAttribute("commentCount", commentCount);
 		return "/webtoon/episodeDetail";

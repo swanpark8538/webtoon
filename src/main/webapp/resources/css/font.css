@@ -7,6 +7,11 @@
   src: url(/resources/font/NotoSansKR-Bold.ttf);
 }
 @font-face {
+  font-family: ns-m;
+  font-weight: normal;
+  src: url(/resources/font/NotoSansKR-Medium.otf);
+}
+@font-face {
   font-family: ns-r;
   font-weight: normal;
   src: url(/resources/font/NotoSansKR-Regular.ttf);

@@ -5,44 +5,47 @@
 <html>
 
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/mainTab.jsp" %>
 
 	<div class="container">
 		<section class="contents episodeDetail">
+			<!-- 이전에 선택된 탭에 active를 넣어주기 위해 파라미터에서 값 가져오기 -->
+			<input type="hidden" id="tabName" value="<c:out value='${param.tab}'></c:out>">
+            
+            <div class="view_toolbar_top">
+                <div class="detail_inner">
+                    <h2>${episode.epiTitle}</h2>
+                    <a href="#" class="btn_back"><span class="hidden">이전</span></a>
+                </div>
+            </div>
+            <div class="view_toolbar_bottom">
+                <c:choose>
+                	<c:when test="${episode.epiNo == episode.firstEpiNo}">
+                    	<a href="javascript:void(0);" class="link_preview disabled">이전화</a>
+                	</c:when>
+                	<c:when test="${episode.epiNo > episode.firstEpiNo}">
+                    	<a href="/webtoon/episode?webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo-1}" class="link_preview">이전화</a>
+                	</c:when>
+                </c:choose>
+                    <button type="button" class="link_list">목록</button>
+				<c:choose>
+                	<c:when test="${episode.epiNo == episode.newestEpiNo}">
+                    	<a href="javascript:void(0);" class="link_next disabled">다음화</a>
+                	</c:when>
+                	<c:when test="${episode.epiNo < episode.newestEpiNo}">
+                    	<a href="/webtoon/episode?webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo+1}" class="link_next">다음화</a>
+                	</c:when>
+                </c:choose>
+            </div>
+            
             <section class="detail_section">
                 <div class="view_area">
-                    <div class="view_toolbar_top">
-                        <div class="detail_inner">
-                            <h2>${episode.epiTitle}</h2>
-                            <a href="#" class="btn_back"><span class="hidden">이전</span></a>
-                        </div>
-                    </div>
-    
                     <div class="view_contents">
                         <div class="detail_inner">
                             <c:forEach items="${episode.episodeFile}" var="img">
                                 <img src="/webtoon/episode/${img.fileName}" alt="comic content">
                             </c:forEach>
                         </div>
-                    </div>
-    
-                    <div class="view_toolbar_bottom">
-                    <c:choose>
-                    	<c:when test="${episode.epiNo == episode.firstEpiNo}">
-                        	<a href="javascript:void(0);" class="link_preview disabled">이전화</a>
-                    	</c:when>
-                    	<c:when test="${episode.epiNo > episode.firstEpiNo}">
-                        	<a href="/webtoon/episode?webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo-1}" class="link_preview">이전화</a>
-                    	</c:when>
-                    </c:choose>
-                        <button type="button" class="link_list">목록</button>
-					<c:choose>
-                    	<c:when test="${episode.epiNo == episode.newestEpiNo}">
-                        	<a href="javascript:void(0);" class="link_next disabled">다음화</a>
-                    	</c:when>
-                    	<c:when test="${episode.epiNo < episode.newestEpiNo}">
-                        	<a href="/webtoon/episode?webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo+1}" class="link_next">다음화</a>
-                    	</c:when>
-                    </c:choose>
                     </div>
                 </div>
     
@@ -76,7 +79,7 @@
 
                     <div class="comments_area">
                         <div class="comment_reg_wrap">
-                            <div class="comment_writer">작성자 아이디</div>
+                            <div class="comment_writer">${memberId}</div>
                             <div class="input_wrap comment">
                                 <div class="textarea">
                                     <textarea placeholder="댓글을 입력하세요"></textarea>
@@ -126,7 +129,7 @@
                                                 <button type="button" class="btn_reg_comment">등록</button>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn_recomment_open">답글 접기</button>
+                                        <button type="button" class="btn_recomment_close">답글 접기</button>
                                     </div>
                                 </div> -->
                             </div>
@@ -138,7 +141,7 @@
                     </div>
                 </div>
             </section>
-            <button id="test">테스트!!!!!!!!!!!!!!</button>
+
 		</section>
 	</div>
 
@@ -167,6 +170,11 @@
     </div>
 
     <script>
+    	// 이전에 선택된 탭에 active 넣어주기
+    	let tabName = $("#tabName").val();
+    	$(".tab_btns.days > .tab_btn").removeClass("active");
+    	$(".tab_btns.days > .tab_btn[data-value="+tabName+"]").addClass("active");
+    	
         // 댓글 출력
         let start = 1;
         let amount = 10;
@@ -184,14 +192,15 @@
                     currentCount = currentCount + data.length;
 
                     $(data).each(function(index, comment){
+                    	const recommentCount = comment.recommentList.length > 0 ? comment.recommentList.length : " 달기"; 
                         const commentWrap = $("<div class='comment_wrap'>");
                         const commentDiv = $("<div class='comment'>");
                         const commentInfo = $("<div class='comment_info'>");
                         const commentWriter = $("<strong class='comment_writer'>"+comment.commentWriter+"</strong>");
                         const commentDate = $("<span class='comment_date'>"+comment.commentDate+"</span>");
                         const commentContent = $("<div class='comment_content'>"+comment.commentContent+"</div>");
-                        const btnRecomment = $("<button type='button' class='btn_recomment'>답글<span>"+comment.recommentList.length+"</span></button>");
-                        const btnLike = $("<button type='button' class='btn_like'>좋아요<span>"+comment.likeCount+"</span></button>");
+                        const btnRecomment = $("<button type='button' class='btn_recomment'>답글<span>"+recommentCount+"</span></button>");
+                        const btnLike = $("<button type='button' class='btn_like'><span class='icon'>좋아요</span><span class='count'>"+comment.likeCount+"</span></button>");
 
                         commentInfo.append(commentWriter);
                         commentInfo.append(commentDate);
@@ -208,7 +217,7 @@
                         const textareaDiv = $("<div class='textarea'>");
                         const textarea = $("<textarea placeholder='댓글을 입력하세요'>");
                         const btnRegComment = $("<button type='button' class='btn_reg_comment'>등록</button>");
-                        const btnRecommentOpen = $("<button type='button' class='btn_recomment_open'>답글 접기</button>");
+                        const btnRecommentOpen = $("<button type='button' class='btn_recomment_close'><span>답글 접기</span></button>");
 
                         $(comment.recommentList).each(function(idx, recomment){
                             const recommentDiv = $("<div class='comment recomment'>");
@@ -216,7 +225,7 @@
                             const commentWriter = $("<strong class='comment_writer'>"+recomment.commentWriter+"</strong>");
                             const commentDate = $("<span class='comment_date'>"+recomment.commentDate+"</span>");
                             const commentContent = $("<div class='comment_content'>"+recomment.commentContent+"</div>");
-                            const btnLike = $("<button type='button' class='btn_like'>좋아요<span>"+recomment.likeCount+"</span></button>");
+                            const btnLike = $("<button type='button' class='btn_like'><span class='icon'>좋아요</span><span class='count'>"+comment.likeCount+"</span></button>");
 
                             commentInfo.append(commentWriter);
                             commentInfo.append(commentDate);
@@ -244,6 +253,10 @@
                         $(this).closest(".comment_wrap").find(".recomment_wrap").toggle();
                     });
 
+                    $(".btn_recomment_close").on("click", function(e){
+                    	e.stopPropagation();
+                        $(this).closest(".comment_wrap").find(".recomment_wrap").hide();
+                    });
 
                     if(currentCount >= totalCount){
                         $("#commentMore").remove();
@@ -282,7 +295,7 @@
             let beforeScroll = 0;
             let currentScroll = 0;
             
-            $(".contents.episodeDetail .view_area .view_toolbar_top, .contents.episodeDetail .view_area .view_toolbar_bottom").addClass("active");
+            $(".contents.episodeDetail .view_toolbar_top, .contents.episodeDetail .view_toolbar_bottom").addClass("active");
             
 	        function getScrollPer(){
 		        let vcTop = $(".view_contents").position().top;
@@ -298,12 +311,17 @@
 		            // console.log(viewPercent);
 		            if(currentScroll > beforeScroll){
 		            	$("#header").css("top", "-65px");
-		            	$(".contents.episodeDetail .view_area .view_toolbar_top, .contents.episodeDetail .view_area .view_toolbar_bottom").removeClass("active");
-		            	$(".contents.episodeDetail .view_area .view_toolbar_top").css("top", "0");
+		            	$(".tab_btns.days").css("top", "-72px");
+		            	$(".contents.episodeDetail .view_toolbar_top, .contents.episodeDetail .view_toolbar_bottom").removeClass("active");
+		            	$(".contents.episodeDetail .view_toolbar_top").css("top", "0");
 		            }else{
 		            	$("#header").css("top", "0");
-		            	$(".contents.episodeDetail .view_area .view_toolbar_top").css("top", "65px");
+		            	$(".tab_btns.days").css("top", "64px");
+		            	$(".contents.episodeDetail .view_toolbar_top").css("top", "136px");
 		            };
+		            if($(window).scrollTop() <= 136){
+		            	$(".contents.episodeDetail .view_toolbar_top, .contents.episodeDetail .view_toolbar_bottom").addClass("active");
+		            }
 		            beforeScroll = currentScroll;
 		        });
 	        };
@@ -313,7 +331,7 @@
 	        });
 	        
 	        $(document).on("click", function(){
-	        	$(".contents.episodeDetail .view_area .view_toolbar_top, .contents.episodeDetail .view_area .view_toolbar_bottom").toggleClass("active");
+	        	$(".contents.episodeDetail .view_toolbar_top, .contents.episodeDetail .view_toolbar_bottom").toggleClass("active");
 	        })
         })
 

@@ -1,51 +1,77 @@
-$(function(){
-  $(".main_tab .tab_btns > .tab_btn").eq(0).click();
-  $(".genre_btns").hide();
-})
+let tabName = $("#tabName").val();
+console.log(tabName);
+
 //메인 탭 선택 시
-$(".main_tab .tab_btns > .tab_btn").on("click", function(){
-  $(".genre_btns").hide();
-  $(".main_tab .sort_btns > .sort_btn").removeClass("active");
-  $(".main_tab .sort_btns > .sort_btn").eq(0).addClass("active");
+$(".genre_btns").hide();
+$(".main_tab .sort_btns > .sort_btn").removeClass("active");
+$(".main_tab .sort_btns > .sort_btn").eq(0).addClass("active");
 
-  if($(this).val() === "genre"){
-    $(".main_tab .genre_btns > .genre_btn").removeClass("active");
-    $(".main_tab .genre_btns > .genre_btn").eq(0).addClass("active");
-  }
+$(".tab_btns.days > .tab_btn").removeClass("active");
+$(".tab_btns.days > .tab_btn[data-value="+tabName+"]").addClass("active");
 
-  const index = $(".main_tab .tab_btns > .tab_btn").index(this);
-  $(".main_tab .tab_btns > .tab_btn").removeClass("active");
-  $(".main_tab .tab_btns > .tab_btn").eq(index).addClass("active");
+if(tabName === "all"){
+  $(".main_tab .tab_contents > .tab_content h3").text("요일별 전체 웹툰");
+} else if(tabName === "new"){
+  $(".main_tab .tab_contents > .tab_content h3").text("신작 웹툰");
+} else if(tabName === "finish"){
+  $(".main_tab .tab_contents > .tab_content h3").text("완결 웹툰");
+} else if(tabName === "genre"){
+  $(".genre_btns").show();
+  $(".main_tab .genre_btns > .genre_btn").removeClass("active");
+  $(".main_tab .genre_btns > .genre_btn").eq(0).addClass("active");
+  $(".main_tab .tab_contents > .tab_content h3").text($(".main_tab .genre_btns > .genre_btn").eq(0).text());
+} else{
+  $(".main_tab .tab_contents > .tab_content h3").text("전체 "+$(".tab_btns.days > .tab_btn.active").text()+"요 웹툰");
+}
 
-	if($(this).text() === "요일 전체"){
-		$(".main_tab .tab_contents > .tab_content h3").text("요일별 전체 웹툰");
-	} else if($(this).text() === "신작"){
-		$(".main_tab .tab_contents > .tab_content h3").text("신작 웹툰");
-	} else if($(this).text() === "완결"){
-		$(".main_tab .tab_contents > .tab_content h3").text("완결 웹툰");
-	} else if($(this).text() === "장르"){
-    $(".genre_btns").show();
-		$(".main_tab .tab_contents > .tab_content h3").text($(".main_tab .genre_btns > .genre_btn").eq(0).text());
-	} else{
-		$(".main_tab .tab_contents > .tab_content h3").text("전체 "+$(this).text()+"요 웹툰");
-	}
+const sort = $(".main_tab .sort_btns > .sort_btn").eq(0).val();
+const genre = tabName === "genre" ? $(".main_tab .genre_btns > .genre_btn").eq(0).val() : null;
 
-  const tab = $(this).val();
-  const sort = $(".main_tab .sort_btns > .sort_btn").eq(0).val();
-  const genre = $(this).val() === "genre" ? $(".main_tab .genre_btns > .genre_btn").eq(0).val() : null;
+webtoonListAjax(tabName, sort, genre);
 
-  console.log("탭 선택");
-  webtoonListAjax(tab, sort, genre);
-})
+// $(".main_tab .tab_btns > .tab_btn").on("click", function(){
+//   $(".genre_btns").hide();
+//   $(".main_tab .sort_btns > .sort_btn").removeClass("active");
+//   $(".main_tab .sort_btns > .sort_btn").eq(0).addClass("active");
+
+//   if($(this).val() === "genre"){
+//     $(".main_tab .genre_btns > .genre_btn").removeClass("active");
+//     $(".main_tab .genre_btns > .genre_btn").eq(0).addClass("active");
+//   }
+
+//   const index = $(".main_tab .tab_btns > .tab_btn").index(this);
+//   $(".main_tab .tab_btns > .tab_btn").removeClass("active");
+//   $(".main_tab .tab_btns > .tab_btn").eq(index).addClass("active");
+
+// 	if($(this).text() === "요일 전체"){
+// 		$(".main_tab .tab_contents > .tab_content h3").text("요일별 전체 웹툰");
+// 	} else if($(this).text() === "신작"){
+// 		$(".main_tab .tab_contents > .tab_content h3").text("신작 웹툰");
+// 	} else if($(this).text() === "완결"){
+// 		$(".main_tab .tab_contents > .tab_content h3").text("완결 웹툰");
+// 	} else if($(this).text() === "장르"){
+//     $(".genre_btns").show();
+// 		$(".main_tab .tab_contents > .tab_content h3").text($(".main_tab .genre_btns > .genre_btn").eq(0).text());
+// 	} else{
+// 		$(".main_tab .tab_contents > .tab_content h3").text("전체 "+$(this).text()+"요 웹툰");
+// 	}
+
+//   const tab = $(this).val();
+//   const sort = $(".main_tab .sort_btns > .sort_btn").eq(0).val();
+//   const genre = $(this).val() === "genre" ? $(".main_tab .genre_btns > .genre_btn").eq(0).val() : null;
+
+//   console.log("탭 선택");
+//   webtoonListAjax(tab, sort, genre);
+// })
 //솔팅 버튼 선택 시
 $(".main_tab .sort_btns > .sort_btn").on("click", function(){
   const index = $(".main_tab .sort_btns > .sort_btn").index(this);
   $(".main_tab .sort_btns > .sort_btn").removeClass("active");
   $(".main_tab .sort_btns > .sort_btn").eq(index).addClass("active");
 
-  const tab = $(this).closest(".main_tab").find(".tab_btn.active").val();
+  const tab = $(".tab_btns.days").find(".tab_btn.active").data("value");
   const sort = $(this).val();
-  const genre = $(this).closest(".main_tab").find(".tab_btn.active").val() === "genre" ? $(".main_tab .genre_btns > .genre_btn.active").val() : null; 
+  const genre = $(".tab_btns.days").find(".tab_btn.active").data("value") === "genre" ? $(".main_tab .genre_btns > .genre_btn.active").val() : null; 
 
   console.log("솔팅 선택");
   webtoonListAjax(tab, sort, genre);
@@ -76,7 +102,7 @@ function webtoonListAjax(tab, sort, genre){
   console.log(genre);
 
   $.ajax({
-    url: "/webtoon",
+    url: "/webtoon/list",
     type: "GET",
     dataType: "JSON",
     data: {tab, sort, genre},

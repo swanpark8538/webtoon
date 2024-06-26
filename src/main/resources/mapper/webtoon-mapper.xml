@@ -248,14 +248,14 @@
 	<select id="selectCommentList" resultMap="getEpisodeComments">
 		select * from 
 		    (select rownum rnum, c.* from 
-		        (select comment_no, epi_no, comment_writer, comment_content, comment_date,
+		        (select comment_no, epi_no, comment_writer, comment_content, to_char(comment_date, 'yyyy-mm-dd hh24:mi:ss') comment_date,
 		        (select count(*) from comment_like_tbl where comment_no=c.comment_no) like_count
 		        from comment_tbl c where epi_no=#{epiNo} and comment_ref is null order by comment_date desc)c
 		    ) 
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="getRecommentList" resultType="comment" parameterType="java.util.Map">
-		select comment_no, epi_no, comment_writer, comment_content, comment_date, comment_ref,
+		select comment_no, epi_no, comment_writer, comment_content, to_char(comment_date, 'yyyy-mm-dd hh24:mi:ss') comment_date, comment_ref,
 		(select count(*) from comment_like_tbl where comment_no=c.comment_no) like_count
 		from comment_tbl c where epi_no=#{epiNo} and comment_ref=#{commentNo} order by comment_date
 	</select>
