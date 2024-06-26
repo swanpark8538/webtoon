@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.contents.episodeDetail{width: calc(100% + 80px); max-width: calc(100% + 80px); margin-left: -40px; padding: 0;}
+.contents.episodeDetail.comments_section{max-width: 1360px; margin: 0 auto; padding: 60px 40px;}
+.contents.episodeDetail .detail_inner{max-width: 1280px; margin: 0 auto; padding: 0 60px;}
+
+.contents.episodeDetail .view_toolbar_top{position: sticky; top: 0; left: 0; right: 0; padding: 0 36px; background-color: #000; opacity: 0; transition: all 0.2s;}
+.contents.episodeDetail .view_toolbar_top.active{opacity: 1;}
+.contents.episodeDetail .view_toolbar_top h2{margin: 0; padding: 18px 0; color: #fff; font-size: 16px; line-height: 24px; text-align: center;}
+.contents.episodeDetail .view_toolbar_top .detail_inner{position: relative;}
+.contents.episodeDetail .view_toolbar_top .btn_back{display: block; position: absolute; left: 60px; top: 12px; width: 36px; height: 36px; background: url(/resources/img/icon_arrow_back_white.svg) no-repeat center / 36px;}
+
+.contents.episodeDetail .view_contents img{display: block; max-width: 690px; margin: 0 auto;}
+
+.contents.episodeDetail .view_toolbar_bottom{display: flex; gap: 8px; position: fixed; left: 50%; bottom: 60px; opacity: 1; transition: all 0.2s;}
+.contents.episodeDetail .view_toolbar_bottom.active{opacity: 1;}{position: fixed; left: 50%; bottom: 60px;}
+.contents.episodeDetail .view_toolbar_bottom [class^=link_]{display: flex; min-width: 83px; padding: 0 4px; border-radius: 4px; color: #fff; font-family: ns-b; font-size: 14px; line-height: 41px;}
+.contents.episodeDetail .view_toolbar_bottom [class^=link_].disabled {opacity: 0.4; cursor: default;}
+.contents.episodeDetail .view_toolbar_bottom .link_preview{padding-left: 30px; background: #000 url(/resources/img/icon_prev_white.svg) no-repeat left 6px center / 24px;}
+.contents.episodeDetail .view_toolbar_bottom .link_list{padding-left: 41px; background: #000 url(/resources/img/icon_list_white.svg) no-repeat left 17px center / 24px;}
+.contents.episodeDetail .view_toolbar_bottom .link_next{padding-left: 14px; background: #000 url(/resources/img/icon_next_white.svg) no-repeat right 6px center / 24px;}

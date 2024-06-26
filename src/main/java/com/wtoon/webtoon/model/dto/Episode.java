@@ -19,7 +19,11 @@ public class Episode {
 	private String epiOpenDate;
 	private int readCount;
 	private String epiIsfree;
+	private int realEpiNo;
+	private int firstEpiNo;
+	private int newestEpiNo;
 	private List<EpisodeFile> episodeFile;
+	private List<Comment> commentList;
 	
 	public String getBr() {
 		return epiMessage.replaceAll("\r\n", "<br>");

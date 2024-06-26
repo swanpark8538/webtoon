@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="webtoon">
-	<select id="getWebtoonList" resultType="webtoon">
+	<select id="selectWebtoonList" resultType="webtoon">
 		select w.webtoon_no, w.webtoon_title, w.webtoon_thumbnail, w.webtoon_intro, w.webtoon_rating, w.webtoon_isinseries, w.webtoon_isdeleted
 		<if test="tab.equals('all')">
 			, s.serial_day
@@ -212,4 +212,65 @@
 	<insert id="insertEpiFile">
 		insert into EPISODE_FILE_TBL values(EPISODE_FILE_SEQ.nextval,#{epiNo},#{fileName},#{filePath})
 	</insert>
+	
+	<select id="selectEpisodeDetail" resultMap="getEpisodeDetail">
+		select * from 
+		    (select rownum real_epi_no, e.* from 
+		        (select 
+		            (select min(epi_no) from episode_tbl where webtoon_no=#{webtoonNo}) first_epi_no,
+		            (select max(epi_no) from episode_tbl where webtoon_no=#{webtoonNo}) newest_epi_no,
+		        epi_no, webtoon_no, epi_title, epi_thumbnail, epi_message, epi_open_date, epi_isfree from episode_tbl where webtoon_no=#{webtoonNo} order by epi_no)e
+		    )
+		where real_epi_no=#{reqNo}
+	</select>
+	<select id="selectEpisodeFileList" resultType="episodeFile">
+		select file_name, file_path from episode_file_tbl where epi_no=#{epiNo} 
+	</select>
+	<resultMap type="episode" id="getEpisodeDetail">
+		<result column="epi_no" property="epiNo"/>
+		<result column="webtoon_no" property="webtoonNo"/>
+		<result column="epi_title" property="epiTitle"/>
+		<result column="epi_thumbnail" property="epiThumbnail"/>
+		<result column="epi_message" property="epiMessage"/>
+		<result column="epi_open_date" property="epiOpenDate"/>
+		<result column="epi_isfree" property="epiIsfree"/>
+		<result column="first_epi_no" property="firstEpiNo"/>
+		<result column="newest_epi_no" property="newestEpiNo"/>
+		<collection property="episodeFile" select="selectEpisodeFileList" column="epi_no" javaType="java.util.List" ofType="episodeFile"/>
+	</resultMap>
+	<select id="selectCommentCount" resultType="int">
+		select count(*) from comment_tbl where epi_no=#{epiNo} and comment_ref is null
+	</select>
+	<select id="selectCommentList" resultMap="getEpisodeComments">
+		select * from 
+		    (select rownum rnum, c.* from 
+		        (select comment_no, epi_no, comment_writer, comment_content, comment_date,
+		        (select count(*) from comment_like_tbl where comment_no=c.comment_no) like_count
+		        from comment_tbl c where epi_no=#{epiNo} and comment_ref is null order by comment_date desc)c
+		    ) 
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="getRecommentList" resultType="comment" parameterType="java.util.Map">
+		select comment_no, epi_no, comment_writer, comment_content, comment_date, comment_ref,
+		(select count(*) from comment_like_tbl where comment_no=c.comment_no) like_count
+		from comment_tbl c where epi_no=#{epiNo} and comment_ref=#{commentNo} order by comment_date
+	</select>
+	<resultMap type="comment" id="getEpisodeComments">
+		<result column="comment_no" property="commentNo"/>
+		<result column="epi_no" property="epiNo"/>
+		<result column="comment_writer" property="commentWriter"/>
+		<result column="comment_content" property="commentContent"/>
+		<result column="comment_date" property="commentDate"/>
+		<result column="like_count" property="likeCount"/>
+		<collection property="recommentList" select="getRecommentList" column="{epiNo=epi_no, commentNo=comment_no}" javaType="java.util.List" ofType="comment"/>
+	</resultMap>
+	<select id="selectRecentView" resultType="int">
+		select count(*) from recent_view_tbl where webtoon_no=#{webtoonNo} and epi_no=#{epiNo} and member_no=#{memberNo}
+	</select>
+	<insert id="insertRecentView">
+		insert into recent_view_tbl values(#{memberNo}, #{webtoonNo}, #{epiNo}, #{viewPercent}, sysdate)
+	</insert>
+	<update id="updateRecentView">
+		update recent_view_tbl set view_percent=#{viewPercent}, view_date=sysdate
+	</update>
 </mapper>

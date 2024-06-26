@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.wtoon.webtoon.model.dto.Comment;
 import com.wtoon.webtoon.model.dto.Creator;
 import com.wtoon.webtoon.model.dto.Episode;
 import com.wtoon.webtoon.model.dto.EpisodeFile;
@@ -17,9 +18,8 @@ public class WebtoonDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
-	public List getWebtoonList(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return session.selectList("webtoon.getWebtoonList", map);
+	public List selectWebtoonList(HashMap<String, Object> map) {
+		return session.selectList("webtoon.selectWebtoonList", map);
 	}
 	
 	public List selectGenreList() {
@@ -113,9 +113,29 @@ public class WebtoonDao {
 	public int insertEpiFile(EpisodeFile file) {
 		return session.insert("webtoon.insertEpiFile", file);
 	}
-
-
-
 	
+	public int selectCommentCount(int epiNo) {
+		return session.selectOne("webtoon.selectCommentCount", epiNo);
+	}
+
+	public Episode selectEpisodeDetail(HashMap<String, Integer> map) {
+		return session.selectOne("webtoon.selectEpisodeDetail", map);
+	}
 	
+	public List selectCommentList(HashMap<String, Integer> map) {
+		return session.selectList("webtoon.selectCommentList", map);
+	}
+
+	public int selectRecentView(HashMap<String, Integer> map) {
+		return session.selectOne("webtoon.selectRecentView", map);
+	}
+	
+	public void insertRecentView(HashMap<String, Integer> map) {
+		session.insert("webtoon.insertRecentView", map);
+	}
+
+	public void updateRecentView(HashMap<String, Integer> map) {
+		session.update("webtoon.updateRecentView", map);
+	}
+
 }
