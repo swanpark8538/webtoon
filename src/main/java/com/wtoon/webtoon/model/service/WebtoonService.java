@@ -21,13 +21,12 @@ public class WebtoonService {
 	private WebtoonDao webtoonDao;
 
 	//메인 웹툰 리스트 불러오기
-	public List getWebtoonList(String tab, String sort, String genre) {
+	public List selectWebtoonList(String tab, String sort, String genre) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("tab", tab);
 		map.put("sort", sort);
 		map.put("genre", genre);
-//		System.out.println(map);
-		return webtoonDao.getWebtoonList(map);
+		return webtoonDao.selectWebtoonList(map);
 	}
 	
 	public List selectGenreList() {
@@ -211,6 +210,40 @@ public class WebtoonService {
 		return result;
 	}
 
+	public Episode selectEpisodeDetail(int webtoonNo, int reqNo) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("webtoonNo", webtoonNo);
+		map.put("reqNo", reqNo);
+		Episode episode = webtoonDao.selectEpisodeDetail(map);
+		return episode;
+	}
+
+	public int selectCommentCount(int epiNo) {
+		return webtoonDao.selectCommentCount(epiNo);
+	}
 	
-	
+	public List selectCommentList(int epiNo, int start, int amount) {
+		int end = start+amount-1;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("epiNo", epiNo);
+		map.put("start", start);
+		map.put("end", end);
+		List commentList = webtoonDao.selectCommentList(map);
+		return commentList;
+	}
+
+	public void insertRecentView(int memberNo, int webtoonNo, int epiNo, int viewPercent) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("memberNo", memberNo);
+		map.put("webtoonNo", webtoonNo);
+		map.put("epiNo", epiNo);
+		map.put("viewPercent", viewPercent);
+		int isRecentView = webtoonDao.selectRecentView(map);
+		if(isRecentView > 0) {
+			webtoonDao.updateRecentView(map);
+		}else {
+			webtoonDao.insertRecentView(map);			
+		}
+	}
+
 }

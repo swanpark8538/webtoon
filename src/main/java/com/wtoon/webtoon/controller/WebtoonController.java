@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -12,10 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wtoon.webtoon.util.FileUtils;
 import com.wtoon.webtoon.model.dto.WorkPageData;
+import com.wtoon.webtoon.member.model.dto.Member;
 import com.wtoon.webtoon.model.dto.EpiPageData;
 import com.wtoon.webtoon.model.dto.Episode;
 import com.wtoon.webtoon.model.dto.EpisodeFile;
@@ -37,12 +42,7 @@ public class WebtoonController {
 	@ResponseBody
 	@GetMapping()
 	public List list(String tab, String sort, String genre, Model model) {
-		List list = webtoonService.getWebtoonList(tab, sort, genre);
-//		System.out.println(tab);
-//		System.out.println(sort);
-//		System.out.println(genre.equals(""));
-//		model.addAttribute("list", list);
-//		return "webtoon/webtoonList";
+		List list = webtoonService.selectWebtoonList(tab, sort, genre);
 		return list;
 	}
 	
@@ -250,8 +250,39 @@ public class WebtoonController {
 		*/
 	}
 	
+
 	@GetMapping(value = "comicsDetail")
 	public String comicsDetail(int webtoonNo, Model model) {
 		return "/webtoon/comicsDetail";
 	}
+
+	//회차별 상세 페이지
+	@GetMapping(value="/episode")
+	public String episodeDetail(int webtoonNo, int reqNo, Model model) {
+		Episode episode = webtoonService.selectEpisodeDetail(webtoonNo, reqNo);
+		System.out.println(episode);
+		int commentCount = webtoonService.selectCommentCount(episode.getEpiNo());
+		model.addAttribute("episode", episode);
+		model.addAttribute("commentCount", commentCount);
+		return "/webtoon/episodeDetail";
+	}
+	//회차별 상세 댓글
+	@ResponseBody
+	@GetMapping(value="/episodeComment")
+	public List commentList(int epiNo, int start, int amount) {
+		List commentList = webtoonService.selectCommentList(epiNo, start, amount);
+		return commentList;
+	}
+	//스크롤값 전달
+	@ResponseBody
+	@GetMapping(value="/insertViewPercent")
+	public void insertViewPercent(int webtoonNo, int epiNo, int viewPercent, @SessionAttribute(name="member", required=false) Member sessionMember) {
+		//로그인 구현시 세션에서 멤버번호가져와서 변경 예정
+		int memberNo = -1;
+		System.out.println(viewPercent);
+		System.out.println(sessionMember);
+		webtoonService.insertRecentView(memberNo, webtoonNo, epiNo, viewPercent);
+	}
+	
+
 }

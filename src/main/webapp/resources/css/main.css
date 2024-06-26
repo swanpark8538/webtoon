@@ -2,10 +2,10 @@
 
 .contents.main{width: calc(100% + 80px); max-width: calc(100% + 80px); margin-left: -40px; padding: 0;}
 .main_tab{margin-top: -1px; padding-bottom: 52px;}
-.main_tab>.tab_btns{position: sticky; top: 64px; display: flex; justify-content: center; gap: 8px; padding-top: 12px; background-color: #fff; z-index: 1001;}
-.main_tab>.tab_btns::after{content: ""; display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; border-bottom: 1px solid var(--line_03);}
-.main_tab>.tab_btns>.tab_btn{padding: 0 12px; border-bottom: 2px solid transparent; font-size: 15px; line-height: 58px; z-index: 10;}
-.main_tab>.tab_btns>.tab_btn.active{border-bottom: 2px solid var(--main_01); color: var(--main_01); font-family: ns-b;}
+.tab_btns.days{position: sticky; top: 64px; display: flex; justify-content: center; gap: 8px; padding-top: 12px; background-color: #fff; z-index: 1001;}
+.tab_btns.days::after{content: ""; display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; border-bottom: 1px solid var(--line_03);}
+.tab_btns.days>.tab_btn{padding: 0 12px; border-bottom: 2px solid transparent; font-size: 15px; line-height: 58px; z-index: 10;}
+.tab_btns.days>.tab_btn.active{border-bottom: 2px solid var(--main_01); color: var(--main_01); font-family: ns-b;}
 .main_tab>.tab_contents{width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 40px;}
 .main_tab>.tab_contents>.tab_content{padding: 48px 0;}
 .main_tab .title_area{display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;}

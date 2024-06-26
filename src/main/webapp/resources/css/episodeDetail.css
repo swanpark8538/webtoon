@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+.contents.episodeDetail{width: calc(100% + 80px); max-width: calc(100% + 80px); margin-left: -40px; padding: 0;}
+.contents.episodeDetail .comments_section{margin-top: 100px; border-top: 1px solid var(--line_02); padding-top: 36px;}
+.contents.episodeDetail .detail_inner{max-width: 1280px; margin: 0 auto; padding: 0 60px;}
+
+.contents.episodeDetail .view_toolbar_top{position: sticky; top: 0; left: 0; right: 0; padding: 0 36px; background-color: #000; opacity: 0; transition: all 0.2s;}
+.contents.episodeDetail .view_toolbar_top.active{opacity: 1;}
+.contents.episodeDetail .view_toolbar_top h2{margin: 0; padding: 18px 0; color: #fff; font-size: 16px; line-height: 24px; text-align: center;}
+.contents.episodeDetail .view_toolbar_top .detail_inner{position: relative;}
+.contents.episodeDetail .view_toolbar_top .btn_back{display: block; position: absolute; left: 60px; top: 12px; width: 36px; height: 36px; background: url(/resources/img/icon_arrow_back_white.svg) no-repeat center / 36px;}
+
+.contents.episodeDetail .view_contents img{display: block; max-width: 690px; margin: 0 auto;}
+
+.contents.episodeDetail .view_toolbar_bottom{display: flex; gap: 8px; position: fixed; left: 50%; bottom: 60px; transform: translateX(-50%); opacity: 0; transition: all 0.2s;}
+.contents.episodeDetail .view_toolbar_bottom.active{opacity: 1;}
+.contents.episodeDetail .view_toolbar_bottom [class^=link_]{display: flex; min-width: 83px; padding: 0 4px; border-radius: 4px; color: #fff; font-family: ns-b; font-size: 14px; line-height: 41px;}
+.contents.episodeDetail .view_toolbar_bottom [class^=link_].disabled {opacity: 0.4; cursor: default;}
+.contents.episodeDetail .view_toolbar_bottom .link_preview{padding-left: 30px; background: #000 url(/resources/img/icon_prev_white.svg) no-repeat left 6px center / 24px;}
+.contents.episodeDetail .view_toolbar_bottom .link_list{padding-left: 41px; background: #000 url(/resources/img/icon_list_white.svg) no-repeat left 17px center / 24px;}
+.contents.episodeDetail .view_toolbar_bottom .link_next{padding-left: 14px; background: #000 url(/resources/img/icon_next_white.svg) no-repeat right 6px center / 24px;}
+
+.contents.episodeDetail .btn_add{padding-left: 40px; background: var(--main_01) url(/resources/img/icon_plus_white.svg) no-repeat left 16px center / 24px;}
+.contents.episodeDetail .btn_rating{padding-left: 40px; background: #fff url(/resources/img/icon_star_yellow.svg) no-repeat left 16px center / 24px;}
+
+.contents.episodeDetail .comments_section .message_area .title_wrap{display: flex; align-items: center; gap: 8px;}
+.contents.episodeDetail .comments_section .message_area .title_wrap .title{font-family: ns-b; font-size: 16px; line-height: 24px;}
+.contents.episodeDetail .comments_section .message_area .title_wrap .creator{display: flex; font-size: 14px; line-height: 24px;}
+.contents.episodeDetail .comments_section .message_area .title_wrap .creator>a{display: block; font-size: 14px; line-height: 24px;}
+.contents.episodeDetail .comments_section .message_area .title_wrap .creator>a:hover{text-decoration: underline;}
+.contents.episodeDetail .comments_section .message_area .title_wrap .creator>em{display: block; color: var(--gray_03); font-size: 14px; line-height: 24px;}
+.contents.episodeDetail .comments_section .message_area .title_wrap .creator>a+em{padding-left: 4px;}
+.contents.episodeDetail .comments_section .message_area .message_wrap{height: 56px; margin-top: 16px; font-size: 12px; line-height: 20px; overflow-y: auto;}
+
+.contents.episodeDetail .comments_section .comments_area{margin-top: 24px;}
+.contents.episodeDetail .comments_section .comments_area .comment_reg_wrap{margin-top: 24px;}
+.contents.episodeDetail .comment_reg_wrap .comment_writer{margin-bottom: 8px; color: var(--gray_03); font-family: ns-b; font-size: 14px; line-height: 21px;}
+.contents.episodeDetail .comment_reg_wrap .input_wrap.comment{flex-direction: row;}
+.contents.episodeDetail .comment_reg_wrap .input_wrap.comment .textarea{width: calc(100% - 105px); border-color: var(--line_03); border-radius: 0;}
+.contents.episodeDetail .comment_reg_wrap .input_wrap.comment .textarea textarea{height: 80px; padding: 11px; font-size: 14px; line-height: 21px;}
+.contents.episodeDetail .comment_reg_wrap .input_wrap.comment .btn_reg_comment{width: 105px; background-color: #000; color: #fff; font-size: 14px; line-height: 80px; text-align: center;}
+
+.contents.episodeDetail .comments_section .comments_area .comments_wrap{margin-top: 8px;}
+.contents.episodeDetail .comments_wrap .sort_btns{display: flex; gap: 14px;}
+.contents.episodeDetail .comments_wrap .sort_btns .sort_btn{padding: 16px 0; font-size: 14px; line-height: 21px;}
+.contents.episodeDetail .comments_wrap .sort_btns .sort_btn.active{font-family: ns-b;}
+.contents.episodeDetail .comments_wrap .sort_btns .sort_btn + .sort_btn{position: relative;}
+.contents.episodeDetail .comments_wrap .sort_btns .sort_btn + .sort_btn::before{content: ""; display: block; position: absolute; left: -8px; top: 23px; height: 10px; width: 1px; border-left: 1px solid var(--line_02);}
+
+.contents.episodeDetail .comment_wrap .comments{}
+.contents.episodeDetail .comment_wrap .comments .comment_wrap{}
+.contents.episodeDetail .comment_wrap .comments .comment_wrap>.comment{padding: 15px 0;}
+.contents.episodeDetail .comment_wrap .comments .comment_wrap>.recomment_wrap{}
+
+
+
+
+
+
+
