@@ -24,7 +24,7 @@
                     	<a href="javascript:void(0);" class="link_preview disabled">이전화</a>
                 	</c:when>
                 	<c:when test="${episode.epiNo > episode.firstEpiNo}">
-                    	<a href="/webtoon/episode?webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo-1}" class="link_preview">이전화</a>
+                    	<a href="/webtoon/episode?tab=${param.tab}&webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo-1}" class="link_preview">이전화</a>
                 	</c:when>
                 </c:choose>
                     <button type="button" class="link_list">목록</button>
@@ -33,7 +33,7 @@
                     	<a href="javascript:void(0);" class="link_next disabled">다음화</a>
                 	</c:when>
                 	<c:when test="${episode.epiNo < episode.newestEpiNo}">
-                    	<a href="/webtoon/episode?webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo+1}" class="link_next">다음화</a>
+                    	<a href="/webtoon/episode?tab=${param.tab}&webtoonNo=${episode.webtoonNo}&reqNo=${episode.realEpiNo+1}" class="link_next">다음화</a>
                 	</c:when>
                 </c:choose>
             </div>
